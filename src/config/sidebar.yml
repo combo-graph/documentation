@@ -1,20 +1,42 @@
 # Sidebar navigation
 
-- label: 'Introduction'
-  link: '/'
-- label: 'Getting started'
-  link: '/getting-started'
+- label: Getting Started
+  items:
+    - label: 'Installation'
+      link: '/installation'
+    - label: 'Project Setup & Configuration'
+      link: '/project-setup'
 - label: Usage
   items:
-    - label: 'Creating docs'
-      link: '/usage/creating-docs'
-    - label: 'Navigation'
-      link: '/usage/navigation'
-    - label: 'Shadowing'
-      link: '/usage/shadowing'
+    - label: 'Quick Start'
+      link: '/usage/quick-start'
+    - label: 'Enhanced Input'
+      link: '/usage/enhanced-input'
+    - label: 'Auto Setup and Anim Notifiers'
+      link: '/usage/auto-setup'
+- label: Usage (for GAS Users)
+  items:
+    - label: 'Gameplay Effects (Cost and Containers)'
+      link: '/usage/gameplay-effects'
+    - label: 'Gameplay Cues (SFX / VFX Hit Impacts)'
+      link: '/usage/gameplay-cues'
+- label: Usage (non GAS Users)
+  items:
+    - label: 'Running Combo Graph for non GAS Users'
+      link: '/usage/non-gas-users'
+- label: Pages
+  items:
+    - label: 'Philosophy / Core Principles'
+      link: '/pages/core-principles'
+- label: Guides
+  items:
+    - label: 'Handling Collision'
+      link: '/guides/collision'
+    - label: 'Usage with AI'
+      link: '/guides/ai'
 - label: More
   items:
     - label: FAQ
       link: /faq
     - label: 'Github'
-      link: https://github.com/jpedroschmitz/rocketdocs
+      link: https://github.com/mklabs/ComboGraphDocs

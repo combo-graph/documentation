@@ -1,25 +1,24 @@
 # Introduction
 
-Rocket Docs is a complete and awesome Gatsby Theme for documentation websites. We've
-developed it to be easy to use and customize. Forget about other
-things and focus on what matters: **writing docs.**
+Combo Graph is an Unreal plugin based on GAS (Gameplay Ability System) that lets you focus on Combo / Combat design with a Custom Graph and Editor to deliver a fast, flexible and enjoyable developer experience. 
 
-wtfff
+The main idea behind this plugin is to try to cut down iteration times as much as possible when designing and prototyping a new combat system / combos.
 
 ## Features
 
-- ⚛️ Ready for Gatsby v4;
-- 📝 MDX for docs;
-- 🛣 Yaml-based sidebar navigation;
-- 📱 Responsive and mobile friendly;
-- 🖥 Code highlighting with [prism-react-renderer](https://github.com/FormidableLabs/prism-react-renderer) and [react-live](https://github.com/FormidableLabs/react-live) support;
-- 🥇 SEO (Sitemap, schema.org data, Open Graph and Twitter tags).
-- 📈 Google Analytics support;
-- 📄 Custom docs schema;
-- 🖱 Table of Contents;
-- ⚡️ Offline Support & WebApp Manifest;
+- 📄 Highly customized Asset Editor with State Machine like graph and Persona viewport / preview 
+  - (Persona = Animation related goodies used in Anim BP and Anim Assets)
+- 🛣 Can use sequence or montages in the graph. 
+  - If using a sequence, the montages are dynamically created before going through the play montage task (dynamic montages from sequences are great for prototyping but currently does not work properly networked).
+- 🖱 Can define transition using Enhanced input actions
+  - and have them displayed with keyboard or gamepad icons in the graph.
+- 🥇Has an "auto setup" mechanism for animation notify states.
+  - so that you don't have to edit each and every montages with the ANS you need (combo window and collision traces for instance), but still have the possibility to define Notifies in anim assets. The auto setup only takes place if the anim asset doesn't have the corresponding ANS.
+- ⚡️ Can define GE cost and effect containers to apply (for instance for damage) for each node.
+- ⚡️ Can define Gameplay Cues containers to apply (for instance SFX / VFX for hit impacts) for each node.
+- 📝 Montages / Sequences / Icons all using soft object references and handled in cpp 
+  - (so that the abilities or characters using them doesn't explode in size)
+- 🥇Replicated and Multiplayer ready
+- 📄 Easy to use, even for non GAS users
 - and much more 🔥
 
-<br />
-
-[Get started now!](/getting-started)
