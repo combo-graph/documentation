@@ -13,6 +13,12 @@ const theme = {
         background: `#feebc8`,
         text: `#2d3748`,
       },
+
+      // blockquote surrounded by a .notes wrapper
+      notes: {
+        background: `#313131`,
+        text: `#b7bcbe`,
+      },
     },
   },
   fonts: {

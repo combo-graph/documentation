@@ -68,7 +68,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-canonical-urls`,
       options: {
-        siteUrl: `https://rocketdocs.netlify.app`,
+        siteUrl: `https://combo-graph.netlify.app`,
       },
     },
     `gatsby-plugin-offline`,

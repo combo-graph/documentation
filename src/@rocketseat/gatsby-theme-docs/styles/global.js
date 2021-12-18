@@ -109,6 +109,15 @@ export default function GlobalStyle() {
           }
         }
 
+        .notes {
+          blockquote {
+            p {
+              background: ${theme.colors.components.notes.background};
+              color: ${theme.colors.components.notes.text};
+            }
+          }
+        }
+
         hr {
           border: 0;
           height: 0;
