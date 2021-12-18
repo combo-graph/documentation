@@ -21,7 +21,30 @@ module.exports = {
         branch: `master`,
         repositoryUrl: `https://github.com/mklabs/ComboGraphDocs`,
         baseDir: ``,
+        withMdx: false,
       },
+    },
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        extensions: [`.mdx`, `.md`],
+        gatsbyRemarkPlugins: [
+          `gatsby-remark-autolink-headers`,
+          `gatsby-remark-embedder`,
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 960,
+              withWebp: true,
+              wrapperStyle: 'margin-left: initial',
+              linkImagesToOriginal: true,
+            },
+          },
+          `gatsby-remark-responsive-iframe`,
+          `gatsby-remark-copy-linked-files`,
+        ],
+        plugins: [`gatsby-remark-autolink-headers`, `gatsby-remark-images`],
+      }
     },
     {
       resolve: `gatsby-plugin-manifest`,

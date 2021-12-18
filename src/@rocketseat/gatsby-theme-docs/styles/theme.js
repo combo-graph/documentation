@@ -1,8 +1,9 @@
-export default {
+const theme = {
   colors: {
+    background: `#121212`,
     // like active (for links hover and such)
-    primary: '#8257E6',
-    background: '#121212',
+    primary: `#aca599`,
+    link: `#3992ff`,
     // used for active link background in sidebar, and th / tds
     shape: `#121212`,
     title: `#fff`,
@@ -16,5 +17,16 @@ export default {
   },
   fonts: {
     body: `-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`,
+    size: `16px`
   },
+  sidebar: {
+    fonts: {
+      size: {
+        headings: `14px`,
+        items: `15px`
+      }
+    }
+  }
 };
+
+export default theme 
