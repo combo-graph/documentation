@@ -4,7 +4,7 @@ module.exports = {
     defaultTitle: `Combo Graph`,
     siteTitleShort: `Combo Graph`,
     siteDescription: `Combo Graph is an Unreal plugin based on GAS (Gameplay Ability System) that lets you focus on Combo / Combat design with a Custom Graph and Editor to deliver a fast, flexible and enjoyable developer experience. The main idea behind this plugin is to try to cut down iteration times as much as possible when designing and prototyping a new combat system / combos.`,
-    siteUrl: `https://combograph.netlify.app`,
+    siteUrl: `https://combo-graph.netlify.app`,
     siteAuthor: `@mklabs`,
     siteImage: `/banner.png`,
     siteLanguage: `en`,

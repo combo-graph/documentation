@@ -6,14 +6,14 @@
       link: '/installation'
     - label: 'Project Setup & Configuration'
       link: '/project-setup'
-- label: Usage
-  items:
-    - label: 'Quick Start'
-      link: '/usage/quick-start'
     - label: 'Enhanced Input'
       link: '/usage/enhanced-input'
     - label: 'Auto Setup and Anim Notifiers'
       link: '/usage/auto-setup'
+- label: Usage
+  items:
+    - label: 'Quick Start'
+      link: '/usage/quick-start'
 - label: Usage (for GAS Users)
   items:
     - label: 'Gameplay Effects (Cost and Containers)'
