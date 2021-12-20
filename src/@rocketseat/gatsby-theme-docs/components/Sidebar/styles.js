@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useTheme, Global, css } from '@emotion/react';
 
 export const Container = styled.aside`
   width: 100%;
