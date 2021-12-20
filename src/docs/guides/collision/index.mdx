@@ -69,7 +69,7 @@ This way, we'll be able to get accurate hit information for location / impact ve
 
 <div class="notes">
 
-> **Note** If you'd like your mesh to collide with other objects than Character's Skeletal Mesh (for instance the environment such as walls), you can adjust the settings here for the various preset and set the `AGR_Collision`
+> **Note** If you'd like your mesh to collide with other objects than Character's Skeletal Mesh (for instance the environment such as walls), you can adjust the settings here for the various preset and set the `AGR_Collision` collision response to `Block` instead of `Ignore`.
 
 </div>
 
@@ -89,9 +89,9 @@ We now need to add `AGR_CombatManager` Actor Component to our character.
 ![](agr_add_component_01.png)
 *Click `AddComponent` and add `AGR Combat Manager`*
 
-And, with the component selected, adjust the settings to your liking.
+With the component selected, adjust the settings to your liking.
 
-At the very least, you should change the `Trace Channel` setting to the one we created earlier `AGR_Collision`, make sure Start and End Socket Trace names matches the socket created in the previous section, and maybe turn on `Debug` boolean if you'd like to see the debug trace when the collision is enabled.
+At the very least, you should change the `Trace Channel` setting to the one we created earlier `AGR_Collision`, make sure Start and End Socket Trace names match the socket created in the previous section, and maybe turn on `Debug` boolean if you'd like to see the debug trace when the collision is enabled.
 
 ![](agr_component_settings.png)
 *Make sure the Trace Channel is set to our custom channel for collisions*
@@ -116,8 +116,6 @@ If we setup a basic test input to play this montage, and if you have setup the `
 ### Test Hit Event (AGR)
 
 Now that collision system for AGR Component is in place, we can test registration of hits and send back that information to Abilities, such as abilities that ure using Combo Graphs with `StartComboGraph`. For now, we're going to simply print out information we get from hit results.
-
-With `AGR_CombatManager` component selected in the components list, check at the bottom of the Details panel for the event list, and click `+` for `On Attack Hit Event`, and setup your event graph like so:
 
 ![](agr_hit_event.png)
 *With `AGR_CombatManager` selected in the components list, click `+` next to `On Attack Hit Event` event in the details panel, and setup the event graph like so. Here, we're just printing out information for the Hit Result we get.*
