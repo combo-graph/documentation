@@ -14,10 +14,16 @@
   items:
     - label: 'Quick Start'
       link: '/usage/quick-start'
-- label: Usage (for GAS Users)
+    - label: 'Handling Collision'
+      link: '/guides/collision'
+- label: Gameplay Effects
   items:
-    - label: 'Gameplay Effects (Cost and Containers)'
-      link: '/usage/gameplay-effects'
+    - label: 'Cost'
+      link: '/gameplay-effects/cost'
+    - label: 'Effect Containers'
+      link: '/gameplay-effects/containers'
+- label: Gameplay Cues
+  items:
     - label: 'Gameplay Cues (SFX / VFX Hit Impacts)'
       link: '/usage/gameplay-cues'
 - label: Usage (non GAS Users)
@@ -30,8 +36,6 @@
       link: '/pages/core-principles'
 - label: Guides
   items:
-    - label: 'Handling Collision'
-      link: '/guides/collision'
     - label: 'Usage with AI'
       link: '/guides/ai'
 - label: More

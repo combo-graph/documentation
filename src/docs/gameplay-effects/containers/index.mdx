@@ -1,0 +1,389 @@
+---
+title: Gameplay Effects (Effect Containers)
+description: Combo nodes provide helpers to apply a list of Gameplay Effects to apply to targets in what is commonly called Gameplay Effect Containers
+---
+
+Combo nodes provide helpers to apply a list of Gameplay Effects to apply to targets in what is commonly called Gameplay Effect Containers.
+
+## Overview
+
+Much like Epic's [Action RPG Sample Project](https://www.unrealengine.com/marketplace/en-US/product/action-rpg), combo nodes implements the concept of [Gameplay Effect Containers](https://github.com/tranek/GASDocumentation#concepts-ge-containers).
+
+![](ge_containers_01.png)
+*With a combo node selected, Gameplay Effect Containers can be defined with `Effect Containers Map` property.*
+
+These containers are extremely helpful for containing Gameplay Effects and Target Data. They provide a very simple way to define any number of Gameplay Effect to apply, when a Gameplay Event is received (key of the containers map).
+
+Here's a high level overview of how they work and how Combo Graph plugin uses them:
+
+- Effect Containers are a map with a Gameplay Tag **key** and a a value with a specific structure (`FComboGraphGameplayEffectContainer`).
+- The Gameplay Tag **key** is designed to be a gameplay event received by the owning actor when a combo node is evaluating and an animation is playing.
+- The structure value lets you define:
+  - A list of Gameplay Effect classes to apply when the Gameplay Event (defined by the Gameplay Tag key) is received .
+  - Optionally set up set by caller tag and magnitude.
+- Combo Nodes automatically listen for the gameplay event tags defined in the effect containers, and when one such event is received, the container for the tag key is applied.
+
+![](ge_containers_02.png)
+*Here's a simple example using a basic Gameplay Effect to apply damage with a value set by caller. The `Target Gameplay Effect Classes` defined for Gameplay Tag key (`Event.Montage`) will be applied when `Event.Montage` gameplay event is received by the owning actor.*
+
+<div class="notes">
+
+> Combo Graph uses a single Target Data mechanism pulling Target Data from an event, taking hit results from either the Event Data GameplayEffect ContextHandle or Target Data, or the Event Data Target Actor if neither of the hit results were valid. <br /> <br />
+> For the sake of simplicity, the `TargetType` class responsible for the targeting logic is not exposed to Blueprints and for now will always use the built-in one described above pulling data from a gameplay event.
+
+</div>
+
+## Pawn / Character and AttributeSet Setup
+
+> If you already have a GAS setup and a Character class with an Ability System Component, you can skip this part.
+
+> In this tutorial, I'm going to use the AttributeSet `UComboGraphTestAttributeSet` and Character `AComboGraphTestAbilitySystemCharacter` used internally for unit / functional testing the plugin, but you can adjust the steps here to use whatever attributes and pawns you are already using.
+
+Let's setup a test character that we're going to hit and apply gameplay effect for damage. In this tutorial, I'm going to use `AComboGraphTestAbilitySystemCharacter` for the native parent class. `AComboGraphTestAbilitySystemCharacter` is part of the functional testing plugin for Combo Graph available on [Github](https://github.com/mklabs/ComboGraphTests)
+
+It is a very basic Character class with the bare minimum amount of code to setup an Ability System Component (ASC) for the character, and the required `IAbilitySystemInterface` implementation. Also has the possibility to define in Blueprint a list of AttributeSet to grant to the ASC.
+
+<div class="notes">
+
+> If you want to see the source code for this character class and try to implement it yourself, here is the header and source file content. <br />
+> **Note**: You'll likely need to change `COMBOGRAPHTESTS_API` to your own macro module definition, (or simply remove it):
+
+```cpp title=Public/ComboGraphTestAbilitySystemCharacter.h
+#pragma once
+
+#include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
+#include "GameFramework/Character.h"
+#include "ComboGraphTestAbilitySystemCharacter.generated.h"
+
+class UDataTable;
+class UAttributeSet;
+
+UCLASS()
+class COMBOGRAPHTESTS_API AComboGraphTestAbilitySystemCharacter : public ACharacter, public IAbilitySystemInterface
+{
+	GENERATED_BODY()
+
+public:
+	AComboGraphTestAbilitySystemCharacter(const FObjectInitializer& ObjectInitializer);
+
+	static FName AbilitySystemComponentName;
+
+	/** List of attributes to grant and initialize */
+	UPROPERTY(EditDefaultsOnly, Category="Combo Graph|Test")
+	TArray<TSubclassOf<UAttributeSet>> GrantedAttributes;
+
+	/** Datatable to use to initialize base value of granted attributes */
+	UPROPERTY(EditDefaultsOnly, Category = "Combo Graph|Test", meta = (RequiredAssetDataTags = "RowStructure=AttributeMetaData"))
+	TSoftObjectPtr<UDataTable> AttributesDataTable;
+
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	virtual void PostInitializeComponents() override;
+
+private:
+	/** Default ASC */
+	UPROPERTY(Category = AbilitySystem, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	UAbilitySystemComponent* AbilitySystemComponent;
+};
+```
+
+```cpp title=Private/ComboGraphTestAbilitySystemCharacter.cpp
+#include "Abilities/ComboGraphTestAbilitySystemCharacter.h"
+
+#include "AbilitySystemComponent.h"
+
+FName AComboGraphTestAbilitySystemCharacter::AbilitySystemComponentName(TEXT("AbilitySystemComponent_Test0"));
+
+AComboGraphTestAbilitySystemCharacter::AComboGraphTestAbilitySystemCharacter(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(AbilitySystemComponentName);
+	AbilitySystemComponent->SetIsReplicated(true);
+}
+
+UAbilitySystemComponent* AComboGraphTestAbilitySystemCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
+void AComboGraphTestAbilitySystemCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	check(AbilitySystemComponent);
+
+	// Load data table soft object if valid
+	const UDataTable* InitDataTable = nullptr;
+	if (!AttributesDataTable.IsNull())
+	{
+		UDataTable* DataTable = AttributesDataTable.LoadSynchronous();
+		if (DataTable)
+		{
+			InitDataTable = DataTable;
+		}
+	}
+
+	// Grant attributes and initialize with data table if it was found (can be nullptr)
+	for (const TSubclassOf<UAttributeSet> GrantedAttribute : GrantedAttributes)
+	{
+		AbilitySystemComponent->InitStats(GrantedAttribute, InitDataTable);
+	}
+}
+```
+
+Same goes for the Attribute Set we're going to use in this section, here using `UComboGraphTestAttributeSet` also coming from [ComboGraphTests plugin](https://github.com/mklabs/ComboGraphTests).
+
+> If you want to see the source code for this character class and try to implement it yourself, here is the header and source file content. <br />
+> **Note**: You'll likely need to change `COMBOGRAPHTESTS_API` to your own macro module definition, (or simply remove it):
+
+```cpp title=Public/ComboGraphTestAttributeSet.h
+#pragma once
+
+#include "CoreMinimal.h"
+#include "AbilitySystemComponent.h"
+#include "ComboGraphTestAttributeSet.generated.h"
+
+// Uses macros from AttributeSet.h
+#define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
+	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+
+UCLASS()
+class COMBOGRAPHTESTS_API UComboGraphTestAttributeSet : public UAttributeSet
+{
+	GENERATED_BODY()
+
+public:
+
+	// Sets default values for this AttributeSet attributes
+	UComboGraphTestAttributeSet();
+
+    // AttributeSet Overrides
+    virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+    virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+    UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", ReplicatedUsing = OnRep_Health)
+    FGameplayAttributeData Health = 0.0;
+    ATTRIBUTE_ACCESSORS(UComboGraphTestAttributeSet, Health)
+
+	UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", ReplicatedUsing = OnRep_MaxHealth)
+	FGameplayAttributeData MaxHealth = 0.0f;
+	ATTRIBUTE_ACCESSORS(UComboGraphTestAttributeSet, MaxHealth)
+
+	// Damage is a meta attribute used to calculate final damage, which then turns into -Health
+	// Temporary value that only exists on the Server. Not replicated.
+	UPROPERTY(BlueprintReadOnly, Category = "Health Attribute Set", meta = (HideFromLevelInfos))
+	FGameplayAttributeData Damage;
+	ATTRIBUTE_ACCESSORS(UComboGraphTestAttributeSet, Damage)
+
+protected:
+
+    UFUNCTION()
+    virtual void OnRep_Health(const FGameplayAttributeData& OldHealth);
+
+	UFUNCTION()
+	virtual void OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth);
+};
+```
+
+```cpp title=Private/ComboGraphTestAttributeSet.cpp
+#include "Abilities/ComboGraphTestAttributeSet.h"
+
+#include "GameplayEffectExtension.h"
+#include "Net/UnrealNetwork.h"
+
+// Sets default values
+UComboGraphTestAttributeSet::UComboGraphTestAttributeSet()
+{
+	// Default constructor
+}
+
+void UComboGraphTestAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+{
+    Super::PostGameplayEffectExecute(Data);
+
+	if (Data.EvaluatedData.Attribute == GetDamageAttribute())
+	{
+		// Store a local copy of the amount of Damage done and clear the Damage attribute.
+		const float LocalDamageDone = GetDamage();
+		SetDamage(0.f);
+
+		if (LocalDamageDone > 0.f)
+		{
+			// Apply the Health change and then clamp it.
+			const float NewHealth = GetHealth() - LocalDamageDone;
+			SetHealth(FMath::Clamp(NewHealth, 0.f, GetMaxHealth()));
+		}
+	}
+	else if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		// Clamp Health
+		SetHealth(FMath::Clamp(GetHealth(), 0.f, GetMaxHealth()));
+	}
+}
+
+void UComboGraphTestAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+    DOREPLIFETIME_CONDITION_NOTIFY(UComboGraphTestAttributeSet, Health, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UComboGraphTestAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
+}
+
+void UComboGraphTestAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UComboGraphTestAttributeSet, Health, OldHealth);
+}
+
+void UComboGraphTestAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UComboGraphTestAttributeSet, MaxHealth, OldMaxHealth);
+}
+```
+
+
+</div>
+
+#### Blueprint
+
+Let's reuse the Third Person Character template in this section
+
+![](third_person_template_import.png)
+*If you don't already have the template in your project, click the `Add / Import` button on the top left of the Content Browser and add the Third Person template to the project.*
+
+1. Now make a duplicate of `ThirdPersonCharacter` blueprint, name it however you like and open it up.
+2. With [ComboGraphTests plugin](https://github.com/mklabs/ComboGraphTests) installed, reparent the Blueprint to `ComboGraphTestAbilitySystemCharacter` (or use your own Parent class)
+
+<div style="display: flex; justify-content: space-around;">
+
+<div style="width: 300px">
+
+![](third_person_reparent.png)
+
+</div>
+
+<div style="width: 300px">
+
+![](third_person_reparent_02.png)
+
+</div>
+</div>
+
+3. `ComboGraphTestAbilitySystemCharacter` provides a way to initialize Attributes based on a DataTable. Create a new DataTable now for that purpose:
+
+<div style="display: flex; justify-content: space-around; align-items: center;">
+
+<div style="width: 350px">
+
+![](third_person_create_datatable.png)
+*Right click in the context browser, and create a new DataTable from `Miscellaneous > DataTable`*
+
+</div>
+
+<div style="width: 250px">
+
+![](third_person_create_datatable_02.png)
+*And pick AttributeMetaData for the Row Structure*
+
+</div>
+
+</div>
+
+Open up the DataTable created, and define the `Base Value` for both `ComboGraphTestAttributeSet.Health` and `ComboGraphTestAttributeSet.MaxHealth`
+
+![](third_person_create_datatable_03.png)
+*The Row Name pattern should follow `<AttributeSetName>.<AttributeName>`*
+
+4. Then, adjust the `Granted Attributes` property to include the Attribute Set you want to use
+
+<div style="width: 300px">
+
+![](third_person_class_defaults.png)
+*In the Blueprint Class defaults ...*
+
+</div>
+
+![](third_person_granted_attributes.png)
+*... and set the Attribute Sets to grant to the Character's ASC (here using `UComboGraphTestAttributeSet` and the initialization DataTable created earlier)*
+
+5. Place the Character in your level and check attributes are granted with GAS gameplay debugger
+
+![](third_person_debugger_test.png)
+*Hit `²` to open up the console, and input `showdebug abilitysystem` to open up the debugger, followed by `AbilitySystem.Debug.NextTarget` to switch the debugged actor to our test Character.*
+
+Our test character should have the Health and MaxHealth attributes both set to 1000 (or whatever value you used in the initialization DataTable).
+
+If you'd like to avoid to have to rely on the gameplay debugger to check the attributes, we can resort to a little hack in the test character BP and print out the value of the attributes on tick, like so:
+
+![](third_person_debug_on_tick.png)
+*Make sure the `Duration` value is set to *0.0* for the Print Text node anytime you're printing debug values on tick.*
+
+<div style="width: 400px;">
+
+![](third_person_debug_on_tick_02.png)
+*We should now have the debug values on screen now.*
+
+</div>
+
+## Usage Example
+
+To test out and describe how containers can be used to apply damage, we're going to reuse the looping combo we used earlier for costs.
+
+[![](ge_containers_combo_graph.gif)](ge_containers_combo_graph.gif)
+
+It is also expected that you have some Pawns available with an Ability System Component and an AttributeSet granted with attributes holding the Health value for the Pawns.
+
+Also related to the application of effect containers, it is expected that you have followed the [collision guide](/guides/collision/) since we're going to use the gameplay event sent when a hit is registered.
+
+### Create Gameplay Effect for damage
+
+First thing first, let's create a basic Gameplay Effect (GE) that we're going to use to apply damage to the target characters, and decrease their health amount.
+
+![](create_ge_basic_damage.png)
+*Right click in Content Browser to open up the context menu, create a new Blueprint class with `GameplayEffect` for the parent class*
+
+Open up the created gameplay effect, and assuming you're using the same Attribute Set as described in the [Pawn / Character and AttributeSet Setup](#pawn--character-and-attributeset-setup) section, setup the modifiers like so:
+
+![](ge_basic_damage_definition.png)
+*The Gameplay Effect should be an **Instant** effect with some modifiers to change the value of attributes when applied (adjust the attributes if you're using a different Attribute Set)*
+
+In the above Gameplay Effect, we setup a single attribute modifier for `ComboGraphTestAttributeSet.Health` with an additive operation and a value of -100, which should result when applied in the health for the target to be decreased by 100.
+
+In the [Handling Collision](/guides/collision/) page, we go over the steps to send a gameplay event when a hit is registered, passing in data for Instigator / Target and Hit Result as Target Data.
+
+![](agr_send_gameplay_event.png)
+*Here is the brief overview of the gameplay event sent when the collision system detects a hit, and using `Event.Montage` gameplay tag for the gameplay event.*
+
+That way, we can setup effect containers to react to this event and apply our damage gameplay effect when `Event.Montage` event is received by the owning character.
+
+In the Combo Graph asset, select a combo node (or more than one), and add a new Effect Container like so:
+
+![](effect_container_setup_01.png)
+*With a combo node selected, click the `+` icon to add a new container entry, set the key to `Event.Montage`, then expand the value and add the gameplay effect created earlier by clicking on the `+` icon for `Target Gameplay Effect Classes`*
+ 
+[![](ge_container_test_1920.gif)](ge_container_test_1920.gif)
+
+If we now test in-game, when our collision system register hits, the gameplay effects of the container we defined should be applied, resulting in health loss each time we hit a target.
+
+### Usage with Set By Caller
+
+You may have noticed the `Use Set By Caller Magnitude` boolean in effect containers. If we set it to true, we'll gain access to a few more properties that can be used to pass a magnitude value for the effect to apply:
+
+[![](ge_container_set_by_caller.gif)](ge_container_set_by_caller.gif)
+
+Usage of set by caller magnitude in Gameplay Effects require a bit of different setup than the basic GE we created earlier. To do so, either create a new Gameplay Effect or change the one created previously.
+
+![](ge_basic_damage_set_by_caller.png)
+*Attribute modifier needs to use `SetByCaller` for `Magnitude Calculation Type` and a unique gameplay tag for `Set By Caller Magnitude > Data Tag` (recommended to prefix those with `SetByCaller.`)*
+
+Now that our Gameplay Effect is ready to use Set By Caller magnitude, we can pass this value from external source such as our Combo Graph nodes.
+
+![](ge_container_set_by_caller_01.png)
+*Go back to our Combo Graph asset, and adjust the effect containers for the nodes similar to this. Make sure to use the same `Set By Caller Data Tag` than the one used in the Gameplay Effect and setup the magnitude value accordingly.*
+
+That way, you can decide to use the same Gameplay Effect in multiple Effect Containers for different nodes, while using a slightly different magnitude value for each.
+
+If we test again in-game, we should see the health of our target changed based on the magnitude value we have setup on each combo node.
+
+> **Note** Instead of using `ComboGraphTestAttributeSet.Health` in the Gameplay Effect, you could use `ComboGraphTestAttributeSet.Damage` attribute with a positive value. It is a "meta" attribute, a temporary attribute that only exist on the server, with the sole purpose of subtracting `ComboGraphTestAttributeSet.Health` with the damage value.

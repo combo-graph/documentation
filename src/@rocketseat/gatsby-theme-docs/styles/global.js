@@ -54,6 +54,10 @@ export default function GlobalStyle() {
           font-weight: bold;
         }
 
+        .anchor.before svg {
+          stroke: ${theme.colors.title};
+        }
+
         p {
           color: ${theme.colors.text};
           font-size: ${theme.fonts.size};
