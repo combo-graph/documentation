@@ -81,7 +81,7 @@ There's a few events exposed to Blueprints that are triggered by the task if you
 - `OnGraphEnd`: Triggered when the combo graph is done executing, either when a montage is completed (meaning no input was registered or reached the end of the tree) or interrupted from an external source or ability.
 - `OnStateChanged`: This is called whenever the graph transitions from a node to another. `StateChangeData` is a structure with `FromNode` / `ToNode` objects if you need to identify them. This structure is only filled with `OnStateChanged` event.
 ![](state_change_struct.png)
-- `OnEventReceived`: Called when a gameplay event is received by the owner of the combo graph, which is the same as the Avatar of the currently running ability (in most case, will be your player character). This event is really similar to the one available with `PlayMontageAndWaitForEvent` task that you can find in Epic's ActionRPG project, tranek's GASDocumentation of GAS Companion. `EventTags` and `EventData` are only filled with `OnEventReceived` event.
+- `OnEventReceived`: Called when a gameplay event is received by the owner of the combo graph, which is the same as the Avatar of the currently running ability (in most case, will be your player character). This event is really similar to the one available with `PlayMontageAndWaitForEvent` task that you can find in Epic's ActionRPG project, tranek's GASDocumentation or GAS Companion. `EventTags` and `EventData` are only filled with `OnEventReceived` event.
 
 ![](event_received_params.png)
 
