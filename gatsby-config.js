@@ -42,6 +42,19 @@ module.exports = {
           },
           `gatsby-remark-responsive-iframe`,
           `gatsby-remark-copy-linked-files`,
+          {
+            resolve: 'gatsby-remark-video',
+            options: {
+              width: 650,
+              height: 'auto',
+              preload: 'auto',
+              muted: false,
+              autoplay: false,
+              playsinline: true,
+              controls: true,
+              loop: true
+            }
+          }
         ],
         plugins: [`gatsby-remark-autolink-headers`, `gatsby-remark-images`],
       }

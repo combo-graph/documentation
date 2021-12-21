@@ -25,7 +25,7 @@
 - label: Gameplay Cues
   items:
     - label: 'Gameplay Cues (SFX / VFX Hit Impacts)'
-      link: '/usage/gameplay-cues'
+      link: '/gameplay-cues'
 - label: Usage (non GAS Users)
   items:
     - label: 'Running Combo Graph for non GAS Users'

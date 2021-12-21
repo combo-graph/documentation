@@ -1,0 +1,73 @@
+---
+title: Gameplay Cues (SFX / VFX Hit Impacts)
+description: Combo nodes exposes a way to execute a list of Gameplay Cues for one-off "burst" effects for visual / sounds when a hit is registered
+---
+
+Combo nodes exposes a way to execute a list of Gameplay Cues for one-off "burst" effects for visual / sounds when a hit is registered.
+
+## Overview
+
+Similarly to [Gameplay Effect Containers](/gameplay-effects/containers/), each combo nodes provides a `Cues Container Map` giving the ability to execute one-off "burst" gameplay cues that can be used for visual or sound effects.
+
+Upon receiving a gameplay event (like it's done in the [Handling Collision](/guides/collision/) guide), the Cues Container matching the Gameplay Event Tag will be applied. If the `Gameplay Cue Tags` is matching a Gameplay Cue Blueprint, the Gameplay Cue Manager should execute them appropriately.
+
+![](gc_containers.png)
+*Usage example with a Niagara Particle System (coming from [Niagara Footstep VFX
+](https://www.unrealengine.com/marketplace/en-US/product/niagara-footstep-vfx)) and a Sound Effect (coming from Engine)*
+
+
+`video: /gameplay-cues/gc_container_test.mp4`
+*Turn on the volume to hear that sweet compiler sound.*
+
+If the gameplay event received is including proper hit locations (which should be the case with Hit Results), particle systems and sounds should be played at the location of the impacts.
+
+## Using built-in Gameplay Cue
+
+Combo Graph provides a special Gameplay Cue Notify Static called `UComboGraphGameplayCueNotify_HitImpact` that you can subclass with Blueprints and setup a `Gameplay Cue Tag` for it.
+
+You don't need to implement any Blueprint logic for it (and if you want or need to, can always do so by creating a child blueprint of `UGameplayCueNotify_Static`), it is handled natively and meant to be used with Gameplay Cue Parameters you can adjust in Combo Graphs with nodes.
+
+![](cues_container_params.png)
+
+The `Cue Source Object Type` can be set to the following value (when set, the corresponding parameter will be editable):
+
+- `None` - Default value, no parameter will be passed down from combo nodes to gameplay cues (suitable to use when you determine the visual / sound effects to use from within the cue)
+- `Use Niagara Particle System` - Allows to define a Niagara Particle System that if defined will be passed down to Gameplay Cues as SourceObject and available in params.
+- `Use Cascade Particle System` - Allows to define a Cascade Particle System that if defined will be passed down to Gameplay Cues as SourceObject and available in params (Cascade is likely to be deprecated in Unreal, prefer to use Niagara instead).
+- `Use Sound Effect` - The Sound to play (Cue, Wave, ...) that if defined will be passed down to Gameplay Cues as SourceObject and available in params.
+
+### Create Gameplay Cue Blueprint
+
+To use the built-in Gameplay Cue, you still need to define a Blueprint for it so that you can define the Gameplay Tag for it, and setup `GameplayCueNotifyPaths` accordingly in your `DefaultGame.ini` file.
+
+Create a new Blueprint with parent class `ComboGraphGameplayCueNotify_HitImpact`.
+
+![](gc_create_bp.png)
+
+Once created, open it up and setup a `Gameplay Cue Tag` for it (Gameplay Cue tags should begin with `GameplayCue.`).
+
+![](gc_hit_impact.png)
+*Gameplay Cues inheriting from `ComboGraphGameplayCueNotify_HitImpact` are meant to be data only blueprint. BP exposed methods such as `HandleGameplayCue`, `OnActive`, `OnRemove`, ... won't be called.*
+
+> It is recommended to setup the `GameplayCueNotifyPaths` in your `DefaultGame.ini` configuration file to include the parent folder where your Gameplay Cue lives. By default, if no `GameplayCueNotifyPaths` are defined, the engine will default to `/Game` path which can be very slow. <br /> <br />
+
+```ini title=Config/DefaultGame.ini
+[/Script/GameplayAbilities.AbilitySystemGlobals]
+GameplayCueNotifyPaths="/Game/MyGame/Abilities"
+```
+*Example if your Gameplay Cues are stored in `/Content/MyGame/Abilities` or one of its subfolder*
+
+Once the Gameplay Cue Blueprint Handler has been created for the cue, you can use its Gameplay Cue Tag in Combo Graphs Cues Containers.
+
+![](gc_container_simple_explosion.png)
+*Make sure both the Gameplay Cue Tag in the Cues Container and the Gameplay Cue Handler Blueprint are matching.*
+
+[![](gc_container_test_simple_explosion.gif)](gc_container_test_simple_explosion.gif)
+
+## Using custom Gameplay Cues
+
+TODO ...
+
+### Via Cues Container
+
+### Via applied Gameplay Effects
