@@ -7,15 +7,23 @@
     - label: 'Project Setup & Configuration'
       link: '/project-setup'
     - label: 'Enhanced Input'
-      link: '/usage/enhanced-input'
-    - label: 'Auto Setup and Anim Notifiers'
-      link: '/usage/auto-setup'
+      link: '/project-setup/enhanced-input'
 - label: Usage
   items:
     - label: 'Quick Start'
       link: '/usage/quick-start'
+    - label: 'With Gameplay Tasks (w/o GAS)'
+      link: '/usage/with-gameplay-tasks'
+    - label: 'With Gameplay Abilities (with GAS)'
+      link: '/usage/with-gameplay-abilities'
+    - label: 'Auto Setup and Anim Notifiers'
+      link: '/usage/auto-setup'
+- label: Guides
+  items:
     - label: 'Handling Collision'
       link: '/guides/collision'
+    - label: 'Usage with AI'
+      link: '/guides/ai'
 - label: Gameplay Effects
   items:
     - label: 'Cost'
@@ -26,18 +34,10 @@
   items:
     - label: 'Gameplay Cues (SFX / VFX Hit Impacts)'
       link: '/gameplay-cues'
-- label: Usage (non GAS Users)
-  items:
-    - label: 'Running Combo Graph for non GAS Users'
-      link: '/usage/non-gas-users'
 - label: Pages
   items:
     - label: 'Philosophy / Core Principles'
       link: '/pages/core-principles'
-- label: Guides
-  items:
-    - label: 'Usage with AI'
-      link: '/guides/ai'
 - label: More
   items:
     - label: FAQ
