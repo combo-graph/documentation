@@ -30,10 +30,12 @@
       link: '/collision/plugin-integration-combatcomponents'
 - label: Gameplay Effects
   items:
-    - label: 'Cost'
+    - label: 'Cost (with GAS)'
       link: '/gameplay-effects/cost'
-    - label: 'Effect Containers'
+    - label: 'Effect Containers (with GAS)'
       link: '/gameplay-effects/containers'
+    - label: 'Damage Containers (w/o GAS)'
+      link: '/gameplay-effects/damage-system'
 - label: Gameplay Cues
   items:
     - label: 'Gameplay Cues (SFX / VFX Hit Impacts)'
