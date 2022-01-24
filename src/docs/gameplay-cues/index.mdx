@@ -66,8 +66,56 @@ Once the Gameplay Cue Blueprint Handler has been created for the cue, you can us
 
 ## Using custom Gameplay Cues
 
-TODO ...
+Nothing prevents you from implementing the Gameplay Cue Handler in Blueprint. You can get access to the cue container parameters `Cue Source Object` if you defined some, via the Gameplay Cue Parameters Effect Context.
 
-### Via Cues Container
+> Note that this implies your Ability System Globals class is setup to allocate Combo Graph custom Effect Context. It should be the case already if you followed the [project setup](/project-setup#first-opening) steps.
 
-### Via applied Gameplay Effects
+### Via Cue Containers
+
+In this section, we're using a combo node with the following Cue Container definitions:
+
+![](custom_cue_container_def.png)
+*Note that both Niagara and Cascade system properties are only disabled in this screenshot because I'm using 4.26, and Edit Condition when used to hide properties within an array of struct have [little issues](https://issues.unrealengine.com/issue/UE-117661). It's fixed in 4.27, so if you're using 4.27, switching the Cue Source Object Type dropdown will show / hide them appropriately.*
+
+Here we're using a slightly different tag for the `Gameplay Cue Tags` set to `GameplayCue.Custom`.
+
+You can use several definitions for a given `Key (Gameplay Tag)`. Each definition when using the same `Gameplay Cue Tags` will be handled as a single Gameplay Cue RPC and passing down each individual VFX / SFX asset defined there in a list of resolved `Objects` and `FSoftObjectPath` within the Cue parameters Effect Context.
+
+Those are defined as soft object references in Combo Graph, which are async loaded when the cue container is applied, before forwarding the resolved object with the gameplay cue to the gameplay cue manager.
+
+#### Create Gameplay Cue Blueprint
+
+Like we did [here](#create-gameplay-cue-blueprint), you need to create a new Blueprint class, using `GameplayCueNotify_Static` as a parent class (instead of `ComboGraphGameplayCueNotify_HitImpact` like we did with the built in cue).
+
+Once done, ensure you're using the same Gameplay Tag that the one defined in the Cue Container:
+
+![](custom_cue_tag.png)
+
+And implement the `HandleGameplayCue` event with your custom logic:
+
+![](cue_custom_event_graph_01.png)
+*This GC example is available in the Demo project with the `GC_Combo_Custom` Blueprint. It is essentially doing in Blueprint what `ComboGraphGameplayCueNotify_HitImpact` does in native.*
+
+![](cue_custom_debug_effect_context.png)
+*Here is the implementation of `DebugEffectContext` method.*
+
+The following methods taking an Effect Context as input parameters are available in Combo Graph Blueprint Library. They provide helper to extract info from Combo Graph Effect Context in Blueprints, so that you can access cue containers VFX / SFX parameter in your GC Blueprints.
+
+| Name              | Description                                                                                                               |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `GetCueParamsObjectsFromContext` | Extracts Cue Params resolved Objects (set in a combo graph node) from Gameplay Effect Context              |
+| `HasCueParamsObjectsFromContext` | Checks if Gameplay Effect Context has any Cue Params resolved Objects (set in a combo graph node)          |
+| `GetCueParamsObjectsPathsFromContext` | Extracts Cue Params Soft Object Paths (set in a combo graph node) from Gameplay Effect Context        |
+| `HasCueParamsObjectsPathsFromContext` | Checks if Gameplay Effect Context has any Cue Params Soft Object Paths (set in a combo graph node)    |
+
+> *Note*: only the `Execute` event type is going to happen when used within a Cue Container in a combo graph. If you wish to apply other type of cues, such as persisting effects using `GameplayCueNotify_Actor`, it should be applied from Gameplay Effects (infinite or duration based).
+
+### Via applied Gameplay Effects in Effect Containers
+
+> This section is only relevant to GAS users. While Cue Containers can be used directly, even for users not using GAS already, gameplay effect containers are meant to be used with proper GAS setup.
+
+Gameplay Effects applied via [Effect Containers](/gameplay-effects/containers) can define a list of Gameplay Cue tags in the "Display" category.
+
+![](ge_gameplay_cues.png)
+
+You would handle those cues like you would usually do, gameplay cues applied this way won't have any specifics to Combo Graph plugin (meaning effect context won't include any custom parameters, unlike with cue containers).
