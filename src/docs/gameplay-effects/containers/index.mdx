@@ -334,7 +334,7 @@ To test out and describe how containers can be used to apply damage, we're going
 
 It is also expected that you have some Pawns available with an Ability System Component and an AttributeSet granted with attributes holding the Health value for the Pawns.
 
-Also related to the application of effect containers, it is expected that you have followed the [collision guide](/guides/collision/) since we're going to use the gameplay event sent when a hit is registered.
+Also related to the application of effect containers, it is expected that you have followed the [collision guide](/collision/) since we're going to use the gameplay event sent when a hit is registered.
 
 ### Create Gameplay Effect for damage
 
@@ -350,7 +350,7 @@ Open up the created gameplay effect, and assuming you're using the same Attribut
 
 In the above Gameplay Effect, we setup a single attribute modifier for `ComboGraphTestAttributeSet.Health` with an additive operation and a value of -100, which should result when applied in the health for the target to be decreased by 100.
 
-In the [Handling Collision](/guides/collision/) page, we go over the steps to send a gameplay event when a hit is registered, passing in data for Instigator / Target and Hit Result as Target Data.
+In the [Handling Collision](/collision/) page, we go over the steps to send a gameplay event when a hit is registered, passing in data for Instigator / Target and Hit Result as Target Data.
 
 ![](agr_send_gameplay_event.png)
 *Here is the brief overview of the gameplay event sent when the collision system detects a hit, and using `Event.Montage` gameplay tag for the gameplay event.*

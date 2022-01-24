@@ -18,12 +18,16 @@
       link: '/usage/with-gameplay-abilities'
     - label: 'Auto Setup and Anim Notifiers'
       link: '/usage/auto-setup'
-- label: Guides
-  items:
-    - label: 'Handling Collision'
-      link: '/guides/collision'
     - label: 'Usage with AI'
       link: '/guides/ai'
+- label: Collision
+  items:
+    - label: 'Handling Collision'
+      link: '/collision'
+    - label: 'Plugin Integration: AGR Pro'
+      link: '/collision/plugin-integration-agrpro'
+    - label: 'Plugin Integration: Combat Components'
+      link: '/collision/plugin-integration-combatcomponents'
 - label: Gameplay Effects
   items:
     - label: 'Cost'
