@@ -96,11 +96,11 @@ Here is a brief description of each exposed configuration properties:
 
 Additionally, the component defines a few Event Delegates you can register to in Blueprints:
 
-| Name              | Description                                       |
-| ----------------- | ------------------------------------------------- |
-| On Hit Registered | Delegate invoked when a successful hit is registered, only on server |
+| Name              | Description                                                                       |
+| ----------------- | --------------------------------------------------------------------------------- |
+| On Hit Registered | Delegate invoked when a successful hit is registered, only on server              |
 | On Trace Start    | Delegate invoked when we start to check for collision traces on registered meshes |
-| On Trace End      | Delegate invoked when we end the collision tracing process on registered meshes |
+| On Trace End      | Delegate invoked when we end the collision tracing process on registered meshes   |
 
 ### Setup Mesh Collision Sockets
 
@@ -164,6 +164,10 @@ You can customize this behavior with `Collision Trace Channel`, `Actor Types to 
 For instance, you could add `BlockAll` to `Collision Profiles to Ignore` to disable hits against the environment. A more robust and flexible way to further tune how collision is handled internally is to setup custom collision profiles (see [AGR integration part about collision setup](/collision/plugin-integration-agrpro#collision-setup), where we go over briefly how it can be done).
 
 The `Should Log Hits` boolean on the collision component can be useful on these scenarios, as it will print out to console both successful and ignored hits, with information about hit component and the collision profile it has.
+
+The full graph should look similar to below:
+
+![](collision_component_event_graph.png)
 
 ## Send Hit Information to Abilities
 
