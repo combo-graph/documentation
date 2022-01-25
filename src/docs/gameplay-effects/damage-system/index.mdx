@@ -1,15 +1,17 @@
 ---
 title: Damage Containers via Unreal's Damage System
-description: Combo nodes provide helpers to apply a list of "Damage Containers" to apply to targets in what is commonly called Gameplay Effect Containers
+description: Combo nodes provide helpers to apply a list of "Damage Containers" to apply to targets
 ---
 
-Combo nodes provide helpers to apply a list of "Damage Containers" to apply to targets in what is commonly called Gameplay Effect Containers.
+Combo nodes provide helpers to apply a damage to targets in what is commonly called Damage Containers.
 
 It is primarily designed to be used on project's not using GAS already (in which case [Gameplay Effect Containers](/gameplay-effects/containers) is better suited)
 
 ## Overview
 
-Much like Epic's [Action RPG Sample Project](https://www.unrealengine.com/marketplace/en-US/product/action-rpg), combo nodes implements the concept of [Gameplay Effect Containers](https://github.com/tranek/GASDocumentation#concepts-ge-containers), but relies on Characters having proper Ability System setup and Gameplay Attributes available to use in Gameplay Effects.
+Much like Epic's [Action RPG Sample Project](https://www.unrealengine.com/marketplace/en-US/product/action-rpg), combo nodes implements the concept of [Gameplay Effect Containers](https://github.com/tranek/GASDocumentation#concepts-ge-containers), but it relies on Characters having proper Ability System setup and Gameplay Attributes available to use in Gameplay Effects.
+
+To that end, Combo Nodes have a fallback mechanism to change those containers to "Damage Containers", for projects not making use of GAS built-in Attributes and Gameplay Effects.
 
 The `Damage Handling Method` dropdown should be set to `Unreal's Damage System` if you wish to use engine's base Damage System instead of Gameplay Effects (Damage Handling is set to `Gameplay Ability System` by default). 
 
