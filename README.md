@@ -20,32 +20,20 @@
   </a>
 </p>
 
-## 🚀 Features
-
-- 📝 MDX for docs;
-- 🛣 Yaml-based sidebar navigation;
-- 📱 Responsive and mobile friendly;
-- 🖥 Code highlighting with [prism-react-renderer](https://github.com/FormidableLabs/prism-react-renderer) and [react-live](https://github.com/FormidableLabs/react-live) support;
-- 🥇 SEO (Sitemap, schema.org data, Open Graph and Twitter tags).
-- 📈 Google Analytics support;
-- 📄 Custom docs schema;
-- 🖱 Table of Contents;
-- ⚡️ Offline Support & WebApp Manifest;
-- and much more 🔥
-
 ## ⚡️ Getting started
 
-1. Create the website.
+1. Clone the repo.
 
    ```sh
-   npx gatsby new rocketdocs https://github.com/jpedroschmitz/gatsby-starter-rocketdocs
+   git clone https://github.com/combo-graph/documentation.git
    ```
 
 2. Start developing.
 
    ```sh
-   cd rocketdocs
-   gatsby develop
+   cd documentation
+   npm i
+   npm run start
    ```
 
 3. Are you ready for launch?
@@ -54,8 +42,4 @@
 
 ## 📄 Docs
 
-Looking for docs? Check our live demo and documentation [website](https://rocketdocs.netlify.app).
-
----
-
-Made with 💜 by João Pedro
+Looking for docs? Generated [website](https://combo-graph.github.io).
