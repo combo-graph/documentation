@@ -4,6 +4,47 @@ description: Frequently asked questions about the plugin.
 disableTableOfContents: true
 ---
 
-## Will it have a Unicorn?
+## I don't use GAS, will I be able to use the plugin ?
 
-Most likely
+Yes. While GAS itself is a core component of Combo Graph, you don't need to know GAS to effectively design and use combos. Combo Graph assets act as an abstraction layer where you can define and visually design combo strings and link montages or sequences together. 
+
+Combos run within a Gameplay Ability via Ability Tasks, and the [Gameplay Task](/usage/with-gameplay-tasks) version provides an easy way to run combo graph assets from within a Character Blueprint.
+
+The main differences using the gameplay tasks in non GAS project:
+
+- You won't be able to use Gameplay Effect costs for combo nodes
+- You won't be able to use Gameplay Effect Containers to apply damage to targets upon receiving hit notifications, but can fallback to [Damage Containers](/gameplay-effects/damage-system) using Unreal's Damage System.
+- You can still use [Gameplay Cues Containers](/gameplay-cues) for hit impacts for visual / sound effects.
+
+## Do I need to inherit my Blueprints from specific c++ classes ?
+
+No. For both GAS and non GAS setup.
+
+You don't need your abilities to have a specific parent class (`GameplayAbility` will do, or your own base class). The main way to run a combo graph asset from within gameplay abilities is via Ability Tasks:
+
+- One to run a whole combo
+- One to play an anim montage with the [auto setup](/usage/auto-setup) configuration for ANS (although this one is not strictly speaking required to use).
+
+Same for Character or Pawn Blueprints avatar / owners for your abilities. No specific character hierarchy, apart from your custom made base class implementing `IAbilitySystemInterface`. It is likely going to change in ue5 where the implementation of that interface is less mandatory (engine would fallback to component search).
+
+No specific `AbilitySystemComponent` as well.
+
+The only required setup (and only for cues container) is explained in the [project setup](/project-setup#first-opening) page, where we need to configure GAS to use Combo Graph specific `AbilitySystemGlobals` class in order to allocate its own version of Gameplay Effect Context.
+
+## Is there any animations included in the plugin ?
+
+No. No animations are included, this plugin is about providing the underlying gameplay system to use with your existing animations or other animation packs from the marketplace.
+
+## Does it support any form of ranged combo ?
+
+No, not directly. The plugin is primarily designed to be used in games with Third Person Melee Combat. Although other genres like First Person melee or versus fighting could work, just know that it wasn't developed with these kind of games in mind.
+
+## Can I use it with UE5 ?
+
+Yes. I think ... ;) It was tested in ue5 early access where compilation errors were fixed specifically for this release (I don't know about ue5-main branch on github though).
+
+You'll have to edit the `.uplugin` file and remove `Win32` from the whitelist platforms, use the plugin as a project plugin and recompile against ue5.
+
+The combo asset editor was able to open (and not crash). Plugin was primarily developed in 4.26, so all the content assets should be forward compatible with higher versions of the engines.
+
+Keep in mind though that ue5 is not officially supported regarding to Combo Graph, until official release or support for ue5 marketplace plugin is added by Epic.
