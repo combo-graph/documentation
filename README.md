@@ -4,7 +4,7 @@
 
 This repo holds both the written documentation and issues for the plugin.
 
-You can access the issue tracker [here](https://github.com/combo-graph/documentation/issues) open a new issue [here](https://github.com/combo-graph/documentation/issues/new/choose)
+You can access the issue tracker [here](https://github.com/combo-graph/documentation/issues) and open a new issue [here](https://github.com/combo-graph/documentation/issues/new/choose)
 
 ## Documentation
 
