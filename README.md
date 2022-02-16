@@ -1,3 +1,13 @@
+# Combo Graph Documentation / Issue Tracker
+
+## Issues
+
+This repo holds both the written documentation and issues for the plugin.
+
+You can access the issue tracker [here](https://github.com/combo-graph/documentation/issues) open a new issue [here](https://github.com/combo-graph/documentation/issues/new/choose)
+
+## Documentation
+
 <p align="center">
   <img src="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/theme-docs.svg" alt="A illustration of file that is the @rocketseat/gatsby-theme-docs logo" width="100">
 </p>
