@@ -40,6 +40,20 @@
   items:
     - label: 'Gameplay Cues (SFX / VFX Hit Impacts)'
       link: '/gameplay-cues'
+- label: Graph
+  items:
+    - label: 'Conduit'
+      link: '/graph/conduit'
+    - label: 'Transition Behavior'
+      link: '/graph/transition-behavior'
+    - label: 'Enhanced Input Triggers'
+      link: '/graph/triggers'
+    - label: 'Combo Node Blueprint'
+      link: '/graph/combo-node'
+- label: Topics
+  items:
+    - label: 'Charge Attacks'
+      link: '/topics/charge-attacks'
 - label: Pages
   items:
     - label: 'Philosophy / Core Principles'
