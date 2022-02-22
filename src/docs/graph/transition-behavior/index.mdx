@@ -13,12 +13,12 @@ Here is the combo setup this documentation page is going to use:
 
 <div class="notes">
 
-Animations used here are coming from [Essential Sword & Shield Animations
+> Animations used here are coming from [Essential Sword & Shield Animations
 ](https://www.unrealengine.com/marketplace/en-US/product/essential-sword-shield-animations) by [space.bar.anim](https://www.unrealengine.com/marketplace/en-US/profile/space.bar.anim). I definitely recommend to check out his work.
 
 </div>
 
-None of the sequences defined here are using an anim notify state to setup the combo window, and all rely on [Auto Setup](usage/auto-setup/) with default configuration of combo window activating at 25% of the sequence length, and closing at 75% of the sequence length.
+None of the sequences defined here are using an anim notify state to setup the combo window, and all rely on [Auto Setup](/usage/auto-setup/) with default configuration of combo window activating at 25% of the sequence length, and closing at 75% of the sequence length.
 
 ## Transition Behaviors
 
@@ -61,7 +61,7 @@ Now, if we change this Transition Behavior to be set on `Immediately`:
 
 ![](immediately_tooltip.png)
 
-`video: /graph/transition-behavior/on_combo_window_end.mp4`
+`video: /graph/transition-behavior/immediately.mp4`
 
 *Here is the result. Now combo feels more "responsive", and transition will happen as soon as the input is received within the combo window.*
 
@@ -139,7 +139,7 @@ Upon setting this option to Transition on a specific Skeleton Notify frame, you'
 ![](skeleton_notify_05.png)
 *Make sure the name value matches the actual skeleton notify name.*
 
-`video: /graph/transition-behavior/notify_state.mp4`
+`video: /graph/transition-behavior/skeleton_notify.mp4`
 
 *Here is the result. It should behave the same as the previous example with Notify State classes. Except here, we don't need an actual Notify State Blueprint.*
 
