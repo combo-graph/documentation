@@ -62,5 +62,7 @@
   items:
     - label: FAQ
       link: /faq
+    - label: Changelog
+      link: /changelog
     - label: 'Github'
       link: https://github.com/combo-graph/documentation
