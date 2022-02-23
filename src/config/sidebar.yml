@@ -46,10 +46,10 @@
       link: '/graph/conduit'
     - label: 'Transition Behavior'
       link: '/graph/transition-behavior'
-    - label: 'Enhanced Input Triggers'
-      link: '/graph/triggers'
-    - label: 'Combo Node Blueprint'
-      link: '/graph/combo-node'
+    # - label: 'Enhanced Input Triggers'
+    #   link: '/graph/triggers'
+    # - label: 'Combo Node Blueprint'
+    #   link: '/graph/combo-node'
 - label: Topics
   items:
     - label: 'Charge Attacks'
