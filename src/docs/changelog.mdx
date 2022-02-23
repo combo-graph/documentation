@@ -1,0 +1,39 @@
+---
+title: Changelog
+description: Combo Graph Changelog
+---
+
+#### 1.1.0 (2022-02-23)
+
+##### New Features
+
+* **Conduit support** - Can be used immediately after the entry node
+* **Enhanced Input Triggers:**
+  * Adding support for Input Action Canceled event
+  * Adding support to trigger transition on Input Action triggers [wip]
+  * Make Enhanced Input Trigger event the default for edges (transition nodes), and ensure transition event is sent only once and only within combo windows
+* **Charge Attacks:** Added `GetMagnitudeForEffectContainer` BP overridable method for Combo Nodes
+* **Editor:**
+  *  New app mode to switch to graph only view (no persona preview)
+  *  Display node class information when using custom graph nodes at the bottom of the slate content box
+* **Graph** Add Transition Behavior on edges with four options
+  * - Immediately: Trigger combo transition immediately, as soon as input trigger is registered
+  * - OnAnimNotifyClass: Trigger combo transition based on a specific Anim Notify class.
+  * - OnAnimNotifyName: Similar to the above, but using a skeleton notify name.
+  * - OnComboWindowEnd (default): Trigger combo transition when combo window notify state ends if an input was registered
+
+For anim notify behaviors, by the time an input trigger is received, combo transition will happen when the animation reaches this notify state or immediately if animation current time frame is passed the notify state.
+
+* **Graph** New Blueprint exposed StartSection Name on Combo Montage nodes.
+  * Allow combo montage node to define an optional Start Section name (default None), that is passed down to the play montage task.
+  * If defined and matching a valid section, montage will start the animation at the specified section.
+  * Also adding `GetMontageStartSection()` BlueprintNativeEvent (Blueprint overridable) with default behavior returning the `StartSection` name for the given node.
+* **Combo Node:**  Add BP exposed `RootMotionScale`. Sets scale to apply to root motion translation on the animating character
+* **Graph:**  Append class name for BP node in Context Menu (can be disabled via `bIncludeClassNameInContextMenu`)
+
+##### Bug Fixes
+
+* **Collision Component:**
+  *  Prevent hit event called twice for clients on server for an actor already hit
+* **AI Task:**  Make it so that UComboGraphBTTask_RunComboGraph can fallback to ASC for task owner
+*  Change debug log verbosity when damage is applied from Error to Verbose
