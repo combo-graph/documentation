@@ -3,30 +3,49 @@ title: Changelog
 description: Combo Graph Changelog
 ---
 
-#### 1.2.1 (2022-06-05)
+## 1.3.1 (2022-08-05)
 
-##### Bug Fixes
+### Bug Fixes
+
+* Fixes for Lyra / Use Weak object pointers instead of raw pointers for owning task /ability in [#41](https://github.com/combo-graph/combo-graph/pull/41)
+    * Using a combo graph ability in Lyra was resulting in a crash on end PIE (Play in Editor) or when switching maps. Now fixed with this change.
+
+**Full Changelog**: https://github.com/combo-graph/combo-graph/compare/1.3.0...1.3.1
+
+## 1.3.0 (2022-08-05)
+
+### New Features 🎉
+
+* Add OSx / Linux support and Setup CI by @mklabs in https://github.com/combo-graph/combo-graph/pull/40
+
+This update also brings back support for 4.27 which is now up to date with latest changes.
+
+**Full Changelog**: https://github.com/combo-graph/combo-graph/compare/1.2.1...1.3.0
+
+## 1.2.1 (2022-06-05)
+
+### Bug Fixes
 
 * **Montage Task:**  Fix issue with blending out montages that are interrupted not triggering EndGraph event properly
     * Ensures Interrupted event is triggered when montage ends in PlayMontage task.
 
-#### 1.2.0 (2022-04-09)
+## 1.2.0 (2022-04-09)
 
 **1.2.0 is only available for ue 5.0 for now. 4.27 plugin version will be updated shortly.**
 
-##### New Features
+### New Features
 
 *  Customize tasks debug string to display running combo graph asset in gameplay debugger
 
-##### Refactors
+### Refactors
 
 * **Notify States:**  Change NotifyBegin / NotifyEnd signature to comply with ue5 deprecation of previous signature
 * **Editor:**  Change Editor module loading phase to PreDefault
 * **ComboGraphAssetEditor:**  Add GetReferencerName override and avoid ensure error for ue5
 
-#### 1.1.0 (2022-02-23)
+## 1.1.0 (2022-02-23)
 
-##### New Features
+### New Features
 
 * **Conduit support** - Can be used immediately after the entry node
 * **Enhanced Input Triggers:**
@@ -52,7 +71,7 @@ For anim notify behaviors, by the time an input trigger is received, combo trans
 * **Combo Node:**  Add BP exposed `RootMotionScale`. Sets scale to apply to root motion translation on the animating character
 * **Graph:**  Append class name for BP node in Context Menu (can be disabled via `bIncludeClassNameInContextMenu`)
 
-##### Bug Fixes
+### Bug Fixes
 
 * **Collision Component:**
   *  Prevent hit event called twice for clients on server for an actor already hit
