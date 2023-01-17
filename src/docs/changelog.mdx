@@ -3,6 +3,23 @@ title: Changelog
 description: Combo Graph Changelog
 ---
 
+## 1.3.3 (2023-01-17)
+
+### What's Changed
+
+- refactor: Convert all native pointer usage to TObjectPtr
+- fix: Fixed AbilityTask_NetworkSyncPoint can cause duplicate Gameplay Effect applications
+
+Fixing an issue (https://github.com/combo-graph/documentation/issues/13) where it was possible for locally predicted GE's to be added w/ a different prediction key than the server causing it to fail to clean up.
+
+See https://github.com/EpicGames/UnrealEngine/commit/49b4d85a967a1093f188334d9b1be65805ec00e8
+
+Not present on 5.0 and will likely get patched in 5.1.1
+
+Fixed by forking UAbilityTask_NetworkSyncPoint to backport this commit without waiting on 5.1.1 which fixes its usage within Combo Graph assets. Once 5.1.1 hits, this will likely not be needed anymore.
+
+**Full Changelog**: https://github.com/combo-graph/combo-graph/compare/1.3.2...1.3.3
+
 ## 1.3.2 (2022-11-17)
 
 Patch for Unreal 5.1 release. Includes fixes for compilation / warnings happening on 5.1.
