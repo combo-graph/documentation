@@ -50,7 +50,7 @@ There's a few events exposed to Blueprints that are triggered by the task if you
 
 This part highly depends on your GAS setup. Simply put, we need to be able to run the ability. To do that, the ability needs to be granted to your character and the ability needs to be activated, most likely with a player input.
 
-> **Using GAS Companion?** You can use `MGCAbilitySystemComponent` - *on your Character (child of `ModularCharacter`) or PlayerState (child of `ModularPlayerState` with Pawn Class set to a child of `ModularPlayerStateCharacter`)* - and grant your newly created ability to run the combo graph in the `GrantedAbilities` array for the component, optionally defining an input to activate it.
+> **Using GAS Companion?** You can use `GSCAbilitySystemComponent` - *on your Character (child of `ModularCharacter`) or PlayerState (child of `ModularPlayerState` with Pawn Class set to a child of `ModularPlayerStateCharacter`)* - and grant your newly created ability to run the combo graph in the `GrantedAbilities` array for the component, optionally defining an input to activate it.
 > ![](companion_grant_abilities.png)
 
 Depending on your GAS setup, since `GiveAbility` from GAS plugin is not exposed by default to Blueprints, you'll need to use your own preferred way to grant abilities and make sure the newly created ability to run our combo graph is granted to your character.
