@@ -1,0 +1,26 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "changelog-pr.js",
+  "scripts": {
+    "changelog-pr": "node changelog-pr.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "arg": "^5.0.2",
+    "date-fns": "^2.30.0",
+    "gh-got": "^10.0.0",
+    "got": "^13.0.0",
+    "mkdirp": "^3.0.1",
+    "remark-gfm": "^3.0.1",
+    "remark-github": "^11.2.4",
+    "remark-parse": "^10.0.2",
+    "remark-stringify": "^10.0.3",
+    "unified": "^11.0.3",
+    "unist-util-visit": "^5.0.0"
+  }
+}
