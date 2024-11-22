@@ -57,9 +57,12 @@ console.log(`---`);
 // List of heading text we know and always want to have at a fixed 5 lvl heading
 const fixedHeadings = [
   `Breaking Changes 🛠`,
+  `Breaking Changes`,
   `New Features 🎉`,
+  `New Features`,
   `Bug Fixes`,
-  `Other Changes`
+  `Other Changes`,
+  `New Contributors`,
 ];
 
 // List of Pull Request found in the release notes, to fetch and generate just after markdown parsing
