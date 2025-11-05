@@ -33,6 +33,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "prenetlify": "gatsby clean && gatsby build",
-    "netlify": "netlify deploy -d public --prod"
+    "netlify": "netlify deploy -d public --prod",
+    "changelog": "node scripts/changelog-pr.js -t 1.6.1"
   }
 }

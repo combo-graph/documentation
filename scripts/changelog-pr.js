@@ -13,11 +13,18 @@ import remarkGfm from 'remark-gfm';
 import remarkGithub from 'remark-github';
 import { format } from 'date-fns';
 import { mkdirp } from 'mkdirp';
+import { fileURLToPath } from 'url';
 
 const token = process.env.GITHUB_TOKEN;
 const user = `combo-graph`;
 const repo = `combo-graph`;
 const assetsPattern = `https://github.com/${user}/${repo}/assets/`;
+
+// Get the current filename
+const __filename = fileURLToPath(import.meta.url);
+
+// Get the directory name
+const __dirname = path.dirname(__filename);
 
 if (!token) {
   console.error(`No token could be found in process.env`);
@@ -43,7 +50,7 @@ const args = arg({
 console.log('arg', args);
 
 const tag = args['--tag'];
-const output = args['--output'] || path.resolve('../src/docs/changelog.mdx');
+const output = args['--output'] || path.join(__dirname, '../src/docs/changelog.mdx');
 
 console.log(`Using tag "${tag}" to fetch release note`);
 console.log(`Using token "${token}" to fetch release note`);
