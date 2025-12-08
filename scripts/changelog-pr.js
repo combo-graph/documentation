@@ -18,7 +18,8 @@ import { fileURLToPath } from 'url';
 const token = process.env.GITHUB_TOKEN;
 const user = `combo-graph`;
 const repo = `combo-graph`;
-const assetsPattern = `https://github.com/${user}/${repo}/assets/`;
+// const assetsPattern = `https://github.com/${user}/${repo}/assets/`;
+const assetsPattern = `https://github.com/user-attachments/assets/`;
 
 // Get the current filename
 const __filename = fileURLToPath(import.meta.url);
