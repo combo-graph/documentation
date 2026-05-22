@@ -1,8 +1,8 @@
 {
   "title": "Combo Graph Docs",
   "pages": [
+    "docs/index",
     "--- Getting Started ---",
-    "introduction/core-principles",
     "installation",
     "project-setup",
     "usage/quick-start",
@@ -28,9 +28,8 @@
     "guides/ai",
     "--- More ---",
     "faq",
-    "[Vercel](https://vercel.com)",
-    "[Triangle][Vercel](https://vercel.com)",
-    "https://www.fab.com/listings/b0828da5-26a2-400a-b52d-2b9fd77c2bc6",
-    "https://github.com/combo-graph/documentation"
+    "introduction/core-principles",
+    "[ExternalLink][FAB](https://www.fab.com/listings/b0828da5-26a2-400a-b52d-2b9fd77c2bc6)",
+    "[ExternalLink][Github](https://github.com/combo-graph)"
   ]
 }

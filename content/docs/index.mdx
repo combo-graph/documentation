@@ -3,49 +3,90 @@ title: Home
 description: General description about plugin installation.
 ---
 
+import { TvMinimalPlay , CirclePower } from 'lucide-react';
+
 Combo Graph is an Unreal plugin based on GAS (Gameplay Ability System) that lets you focus on Combo / Combat design with a Custom Graph and Editor to deliver a fast, flexible and enjoyable developer experience.
 
-<div class="notes">
+<Callout title="Note" type="idea">
+  Since Combo Graph can be used with or without GAS, depending on whether you're already using the Ability System,
+  relevant part of the documentation are suffixed in the sidebar with either `(with GAS)` or `(w/o GAS)`.
 
-> **Note** Since Combo Graph can be used with or without GAS, depending on whether you're already using the Ability System, relevant part of the documentation are suffixed in the sidebar with either `(with GAS)` or `(w/o GAS)`. Non GAS users should refer to the `(w/o GAS)` pages when applicable.
-
-</div>
-
-import { HomeIcon } from 'lucide-react';
+  Non GAS users should refer to the `(w/o GAS)` pages when applicable.
+</Callout>
 
 <Cards>
-  <Card
-    href="https://nextjs.org/docs/app/building-your-application/data-fetching/fetching-caching-and-revalidating"
-    title="Fetching, Caching, and Revalidating"
-  >
-    Learn more about caching in Next.js
+  <Card icon={<TvMinimalPlay />} title="Installation" href="docs/installation">
+    How to install the plugin from FAB and Epic Launcher, in engine or as a project plugin.
   </Card>
-  <Card title="href is optional">Learn more about `fetch` in Next.js.</Card>
-  <Card icon={<HomeIcon />} href="/" title="Home">
-    You can include icons too.
+
+  <Card icon={<CirclePower />} title="Quick Start Tutorial" href="docs/installation">
+    Quick Start guide tutorial to get started with the plugin.
+  </Card>
+
+  <Card title="With GAS" href="docs/usage/with-gameplay-abilities">
+    When you are ready to use your combo graph, you can start making a Gameplay Ability to start using it. The primary way to run combo graph is via an ability task
+  </Card>
+
+  <Card title="Without GAS" href="docs/usage/with-gameplay-tasks">
+    While Combo Graph is working on GAS (Gameplay Ability System), you don't need to know GAS to effectively use and design Combo Graphs
   </Card>
 </Cards>
 
-## What is it about ??
-
-Essentially a custom editor / graph for a Gameplay Ability with state machine like capabilities to define combo strings and link montages / sequences together.
+## What is Combo Graph
 
 The main idea behind this plugin is to try to cut down iteration times as much as possible when designing and prototyping a new combat system / combos.
 
+It comes with a custom editor / graph for a Gameplay Ability with state machine like capabilities to define combo strings and link montages / sequences together.
+
+
 ***Main Features***
 
-- Highly customized Blueprint Editor with State Machine graph and Persona viewport / preview (Persona = Animation related goodies used in Anim BP and Anim Assets)
-- Can use sequence or montages. If using a sequence, the montages are dynamically created before going through the play montage task.
-- Can define transition with Enhanced input actions, and have them displayed with keyboard or gamepad icons in the graph.
-- Has an "auto setup" mechanism for animation states so that you don't have to edit each and every montages with the ANS you need (combo window and collision traces for instance), **but** still have the possibility to define Notifies in anim assets. The auto setup only takes place if the anim asset doesn't have the corresponding ANS.
-- Can define Gameplay Effect cost and effect containers to apply (for instance for damage) for each node.
-- Non GAS users can fallback to Unreal's Damage System for effect containers.
-- Montages / Sequences / Icons and VFX / SFX assets all using soft object references and handled in cpp (so that the abilities or characters using them doesn't explode in size)
-- Replicated and Multiplayer ready
 
-***Core principles / Inspirations***
+<Cards>
+  <Card title="Asset Editor">
+    Highly customized Blueprint Editor with State Machine graph and Persona viewport / preview 
+
+    Persona = Animation related goodies used in Anim BP and Anim Assets.
+  </Card>
+
+  <Card title="Sequences and Montages">
+    Can use sequence or montages.
+
+    If using a sequence, the montages are dynamically created before going through the play montage task.
+  </Card>
+
+  <Card title="Enhanced Input Transitions">
+    Can define transition with Enhanced input actions, and have them displayed with keyboard or gamepad icons in the graph.
+  </Card>
+
+  <Card title="Animation State Auto Setup">
+    Has an "auto setup" mechanism for [animation notify states](https://dev.epicgames.com/documentation/unreal-engine/animation-notifies-in-unreal-engine#notifystate) so that you don't have to edit each and every montages to setup the notify states
+    you need (combo window and collision traces for instance).
+
+    **But** still have the possibility to define Notifies in anim assets. The auto setup only takes place if the anim asset doesn't have the corresponding ANS.
+  </Card>
+
+  <Card title="Gameplay Effect Containers">
+    Can define Gameplay Effect cost and effect containers to apply (for instance for damage) for each node.
+  </Card>
+
+  <Card title="Fallback mechanism for no GAS setup">
+    Non GAS users can fallback to Unreal's Damage System for effect containers, and use a gameplay task in Character or Controller Blueprint to kick off combos.
+  </Card>
+
+  <Card title="Soft references">
+    Montages / Sequences / Icons and VFX / SFX assets all using soft object references and handled in cpp (so that the abilities or characters using them doesn't explode in size)
+  </Card>
+
+  <Card title="Replication">
+    Replicated and Multiplayer ready
+  </Card>
+</Cards>
+
+
+***Thank you - Core principles / Inspirations***
 
 - Main inspiration and driving force for this plugin is based on Hellblade's "Combat Editor" I've first seen in their devlogs - https://youtu.be/fFKjWciYbBM?t=198 / https://youtu.be/5aAgBAO9Lwc?t=115
 - Logic Driver, especially the combo state machine example (also the live debugging when you see active states when playing in PIE) - https://youtu.be/blNza5q7sp4
-- Started with [Generic Graph](https://github.com/jinyuliao/GenericGraph)) as a base learning material. Development of the plugin wouldn't have been possible without this fantastic resource.
+- Started with [Generic Graph](https://github.com/jinyuliao/GenericGraph) as a base learning material. Development of the plugin wouldn't have been possible without this fantastic resource.
 

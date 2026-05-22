@@ -1,11 +1,11 @@
 ---
 title: Installation
-description: General description about plugin installation.
+description: How to install the plugin from FAB and Epic Launcher, in engine or as a project plugin.
 ---
 
 ## As an Engine Plugin
 
-Download Plugin from [Marketplace](https://www.unrealengine.com/marketplace/en-US/product/combo-graph) and make sure it's enabled in your Plugins window: `Edit > Plugins > Gameplay > Combo Graph`.
+Download Plugin from [FAB](https://www.fab.com/listings/b0828da5-26a2-400a-b52d-2b9fd77c2bc6) via the Epic Launcher for your prefered engine version (last 3 main engine versions are maintaned) and make sure it's enabled in your Plugins window: `Edit > Plugins > Gameplay > Combo Graph`.
 
 ## As a Project Plugin
 
@@ -14,8 +14,10 @@ It is best to add the plugin specifically to the project instead of using it fro
 If you leave a copy in both the engine and project, the engine will always use the one in your project but the launcher will still tell you when there is an update.
 
 1. Once the plugin is installed from Epic Launcher
-2. Locate where the engine is installed and Navigate to the installation folder for marketplace plugins. By default, Combo Graph should be installed in `...\UE_4.27\Engine\Plugins\Marketplace\ComboGraph`
+2. Locate where the engine is installed and Navigate to the installation folder for marketplace plugins.
+By default, Combo Graph should be installed in `...\UE_5.XX\Engine\Plugins\Marketplace\ComboGraph` (with maybe a randomly generated id at the end of the folder name).
 2. Create a Plugins folder in your project
-3. Copy the Plugin folder from the Engine Plugins to your project's plugin folder <span className="no-wrap">(`../UE_4.27/Engine/Plugins/Marketplace/ComboGraph` to `YourProject/Plugins/ComboGraph`)</span>
+3. Copy the Plugin folder from the Engine Plugins to your project's plugin folder 
+(`../UE_5.XX/Engine/Plugins/Marketplace/ComboGraph` to `YourProject/Plugins/ComboGraph`)
 4. Start the project
 5. Make sure it's enabled in your Plugins window: `Edit > Plugins > Gameplay > Combo Graph`.
