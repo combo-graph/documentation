@@ -10,7 +10,7 @@ Here is the combo setup this documentation page is going to use:
 ![](combo_graph.png)
 *Simple combo sequence with edges all using "Light Attack" input action bound to left click*
 
-<div class="notes">
+<div className="notes">
 
 > Animations used here are coming from [Essential Sword & Shield Animations
 ](https://www.unrealengine.com/marketplace/en-US/product/essential-sword-shield-animations) by [space.bar.anim](https://www.unrealengine.com/marketplace/en-US/profile/space.bar.anim). I definitely recommend to check out his work.
@@ -98,7 +98,7 @@ The Notify itself doesn't have to define any logic, but you're free to do so if 
 
 ![](anim_notify_06.png)
 
-<div class="notes">
+<div className="notes">
 
 > Since we're getting into animation timelines with this, I also would recommend to start setting up the combo window notify states within animation assets. It'll be easier to reason about and helps to visually see when the combo inputs can be registered within animations time frames. <br /> <br />
 > Remember, both `Immediately` and `Anim Notify` behaviors will consider an input to be valid if it is happening between the frames defined by the combo window.
@@ -133,7 +133,7 @@ Upon setting this option to Transition on a specific Skeleton Notify frame, you'
 
 *Here is the result. It should behave the same as the previous example with Notify State classes. Except here, we don't need an actual Notify State Blueprint.*
 
-<div class="notes">
+<div className="notes">
 
 > What happens if the notifies are defined outside of the combo window (with default auto setup, after 75% of the animation length) ? Then, the default behavior will take over and will transition (if an input was registered) when the combo window is closing, disregarding the notify state.
 

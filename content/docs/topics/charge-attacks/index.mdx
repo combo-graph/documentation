@@ -6,7 +6,7 @@ description: This documentation page goes through the process of setting up char
 Further support for Enhanced Inputs Triggers, introduction of Transition Behaviors and addition to some API for Combo Nodes introduced in 1.1.0 makes it possible to support and implement charge attacks within Combo Graphs. This documentation page will cover this topic and explain how charge attacks can be implemented.
 
 
-<div class="notes">
+<div className="notes">
 
 > Animations used here are coming from [Protector Animation Pack
 ](https://www.unrealengine.com/marketplace/en-US/product/protector) by [WeaponMaster Animset](https://www.unrealengine.com/marketplace/en-US/profile/WeaponMaster+Animset).
@@ -39,7 +39,7 @@ The best way to set all these sequences up for usage in combo graph is to use an
 
 ### Setting up Montage with Sections
 
-<div class="notes">
+<div className="notes">
 
 > This chapter goes briefly over how an anim montage could be sectioned into several parts, but won't go into details on how it can be done in Editor. Please refer to the official documentation if you need guidance <br />
 > - [Animation Montage](https://docs.unrealengine.com/4.27/en-US/AnimatingObjects/SkeletalMeshAnimation/AnimMontage/)
@@ -92,7 +92,7 @@ We will also create a montage Combo Node Blueprint right now, and implement logi
 ![](combo_graph_03.png)
 *Name those Blueprints with a name of your choosing. Here the BP Combo Node is named `BP_Combo_Charge`*
 
-<div class="notes">
+<div className="notes">
 
 > Tip: Once the combo asset is created, setup your preview mesh accordingly, it'll update the asset browser with animations sharing a compatible skeleton with the mesh.
 > ![](cg_combo_graph_04.png)
@@ -178,7 +178,7 @@ Now, related to charge attacks, you may want to adjust the amount of damage each
 
 This is where our custom Combo Node Blueprint comes into play.
 
-<div class="notes">
+<div className="notes">
 
 > This section relies on concepts we explained in both [Collision](/collision) and [Effect Containers (GAS)](/gameplay-effects/containers) / [Damage Containers](/gameplay-effects/damage-system). We won't cover it in depth here. <br /> <br />
 > The effect container configuration for both charge and attack nodes are using this:

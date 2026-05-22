@@ -39,7 +39,7 @@ With the Static Mesh Component we just added selected, setup the Static Mesh to 
 ![](cc_add_component_03.png)
 *If your skeleton has a socket to attach the weapon to (recommended), you can define the attach point with the `Parent Socket` magnifying glass*
 
-<div class="notes">
+<div className="notes">
 
 > **Note** If you're equipping / unequipping weapons, you can also do this programmatically with 
 ![](cc_add_component_04.png)
@@ -195,7 +195,7 @@ Doing so, abilities have everything needed to apply gameplay effects or trigger 
 
 ### Hit Reactions ?
 
-<div class="notes">
+<div className="notes">
 
 > This pattern can also be used to handle hit reactions via abilities (for instance to play a hit reaction montage) by sending an event that is going to trigger the activation of an ability ([by event](https://github.com/tranek/GASDocumentation#concepts-ga-data)) on the hit actor (actor which received the hit and to which we're sending the gameplay event). <br /> <br />
 > Since we're passing along infos such as instigator / target and complete hit result along with location and hit bone, the receiving ability should have everything needed to decide which montage it's going to play

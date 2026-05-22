@@ -50,7 +50,7 @@ You can open up the assets but we don't need to change anything here. The defaul
 
 ### Input Mapping Contexts
 
-<div class="notes">
+<div className="notes">
 
 > **Note from Official Documentation** Input Mapping Contexts describe the rules for triggering one or more Input Actions. Its basic structure is a hierarchy with a list of Input Actions at the top level. Under the Input Action level is a list of user inputs that can trigger each Input Action, such as keys, buttons, and movement axes. The bottom level contains a list of Input Triggers and Input Modifiers for each user input, which you can use to determine how an input's raw value is filtered or processed, and what restrictions it must meet in order to drive the Input Action at the top of its hierarchy. Any input can have multiple Input Modifiers and Input Triggers. These will evaluate in the order in which they appear in the list you create; this is particularly important for Input Modifiers, which use the output of each step as the input for the next.
 
@@ -97,7 +97,7 @@ Change the value of `ContextMapping` to the one we created earlier (or your alre
 
 ![](plugin_settings_02.png)
 
-<div class="notes">
+<div className="notes">
 
 > **How does it work?** Internally, the plugin will look for that Mapping Context and search for the mappings defined if an Input Action matching the edge is available. If one is found, it will lookup the `IconsDataTable` for each defined user input in the mapping, consider the `IconPreference`, and if a corresponding icon is found for the input, will use that Texture to draw the icon in the graph.
 >

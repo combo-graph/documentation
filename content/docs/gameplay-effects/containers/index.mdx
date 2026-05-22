@@ -26,7 +26,7 @@ Here's a high level overview of how they work and how Combo Graph plugin uses th
 ![](ge_containers_02.png)
 *Here's a simple example using a basic Gameplay Effect to apply damage with a value set by caller. The `Target Gameplay Effect Classes` defined for Gameplay Tag key (`Event.Montage`) will be applied when `Event.Montage` gameplay event is received by the owning actor.*
 
-<div class="notes">
+<div className="notes">
 
 > Combo Graph uses a single Target Data mechanism pulling Target Data from an event, taking hit results from either the Event Data GameplayEffect ContextHandle or Target Data, or the Event Data Target Actor if neither of the hit results were valid. <br /> <br />
 > For the sake of simplicity, the `TargetType` class responsible for the targeting logic is not exposed to Blueprints and for now will always use the built-in one described above pulling data from a gameplay event.
@@ -43,7 +43,7 @@ Let's setup a test character that we're going to hit and apply gameplay effect f
 
 It is a very basic Character class with the bare minimum amount of code to setup an Ability System Component (ASC) for the character, and the required `IAbilitySystemInterface` implementation. Also has the possibility to define in Blueprint a list of AttributeSet to grant to the ASC.
 
-<div class="notes">
+<div className="notes">
 
 > If you want to see the source code for this character class and try to implement it yourself, here is the header and source file content. <br />
 > **Note**: You'll likely need to change `COMBOGRAPHTESTS_API` to your own macro module definition, (or simply remove it):
