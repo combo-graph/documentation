@@ -10,6 +10,7 @@ Combo nodes provide helpers to apply a list of Gameplay Effects to apply to targ
 Much like Epic's [Action RPG Sample Project](https://www.unrealengine.com/marketplace/en-US/product/action-rpg), combo nodes implements the concept of [Gameplay Effect Containers](https://github.com/tranek/GASDocumentation#concepts-ge-containers).
 
 ![](ge_containers_01.png)
+
 *With a combo node selected, Gameplay Effect Containers can be defined with `Effect Containers Map` property.*
 
 These containers are extremely helpful for containing Gameplay Effects and Target Data. They provide a very simple way to define any number of Gameplay Effect to apply, when a Gameplay Event is received (key of the containers map).
@@ -24,6 +25,7 @@ Here's a high level overview of how they work and how Combo Graph plugin uses th
 - Combo Nodes automatically listen for the gameplay event tags defined in the effect containers, and when one such event is received, the container for the tag key is applied.
 
 ![](ge_containers_02.png)
+
 *Here's a simple example using a basic Gameplay Effect to apply damage with a value set by caller. The `Target Gameplay Effect Classes` defined for Gameplay Tag key (`Event.Montage`) will be applied when `Event.Montage` gameplay event is received by the owning actor.*
 
 <div className="notes">
@@ -255,15 +257,15 @@ Let's reuse the Third Person Character template in this section
 1. Now make a duplicate of `ThirdPersonCharacter` blueprint, name it however you like and open it up.
 2. With [ComboGraphTests plugin](https://github.com/mklabs/ComboGraphTests) installed, reparent the Blueprint to `ComboGraphTestAbilitySystemCharacter` (or use your own Parent class)
 
-<div style="display: flex; justify-content: space-around;">
+<div style={{ display: 'flex', justifyContent: 'space-around' }}>
 
-<div style="width: 300px">
+<div style={{ width: '300px' }}>
 
 ![](third_person_reparent.png)
 
 </div>
 
-<div style="width: 300px">
+<div style={{ width: '300px' }}>
 
 ![](third_person_reparent_02.png)
 
@@ -272,16 +274,16 @@ Let's reuse the Third Person Character template in this section
 
 3. `ComboGraphTestAbilitySystemCharacter` provides a way to initialize Attributes based on a DataTable. Create a new DataTable now for that purpose:
 
-<div style="display: flex; justify-content: space-around; align-items: center;">
+<div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
 
-<div style="width: 350px">
+<div style={{ width: '350px' }}>
 
 ![](third_person_create_datatable.png)
 *Right click in the context browser, and create a new DataTable from `Miscellaneous > DataTable`*
 
 </div>
 
-<div style="width: 250px">
+<div style={{ width: '250px' }}>
 
 ![](third_person_create_datatable_02.png)
 *And pick AttributeMetaData for the Row Structure*
@@ -297,7 +299,7 @@ Open up the DataTable created, and define the `Base Value` for both `ComboGraphT
 
 4. Then, adjust the `Granted Attributes` property to include the Attribute Set you want to use
 
-<div style="width: 300px">
+<div style={{ width: '300px' }}>
 
 ![](third_person_class_defaults.png)
 *In the Blueprint Class defaults ...*
@@ -319,7 +321,7 @@ If you'd like to avoid to have to rely on the gameplay debugger to check the att
 ![](third_person_debug_on_tick.png)
 *Make sure the `Duration` value is set to *0.0* for the Print Text node anytime you're printing debug values on tick.*
 
-<div style="width: 400px;">
+<div style={{ width: '400px' }}>
 
 ![](third_person_debug_on_tick_02.png)
 *We should now have the debug values on screen now.*

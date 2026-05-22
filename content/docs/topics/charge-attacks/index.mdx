@@ -178,21 +178,16 @@ Now, related to charge attacks, you may want to adjust the amount of damage each
 
 This is where our custom Combo Node Blueprint comes into play.
 
-<div className="notes">
+<Callout title="Note" type="idea">
 
 > This section relies on concepts we explained in both [Collision](/collision) and [Effect Containers (GAS)](/gameplay-effects/containers) / [Damage Containers](/gameplay-effects/damage-system). We won't cover it in depth here. <br /> <br />
 > The effect container configuration for both charge and attack nodes are using this:
 
-<div style="padding-left: 15px; padding-bottom: 15px;">
-
 ![](node_containers.png)
-
-</div>
 
 > Both Gameplay Effect Containers (for GAS) and Damage Containers (without GAS and not using Attributes to handle damages) can be used here. `GetMagnitudeForContainer` we're about to implement is made to work with both methods.
 
-</div>
-
+</Callout>
 
 Open up the Blueprint asset created earlier, and used within the graph (for me it is `BP_Combo_Charge`)
 
