@@ -1,4 +1,4 @@
 {
   "title": "Graph",
-  "pages": ["conduit", "transition-behavior", "redirect"]
+  "pages": ["conduit", "loops-to-conduit", "transition-behavior", "redirect"]
 }
