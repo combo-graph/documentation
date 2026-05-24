@@ -11,7 +11,6 @@ export const source = loader({
   source: docs.toFumadocsSource(),
   plugins: [lucideIconsPlugin()],
   icon(icon) {
-    console.log(`icon`, icon, icons);
     if (!icon) {
       return;
     }

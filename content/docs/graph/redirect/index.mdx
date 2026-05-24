@@ -1,0 +1,39 @@
+---
+title: Redirect Node
+description: A redirect node enables execution to jump to another named node in the same graph — useful for loops, branching, and avoiding logic duplication.
+---
+
+## Introduction
+
+A redirect node enables execution to jump to another named node in the same graph. It is useful for creating loops, branching logic, and avoiding duplication of shared paths within a combo graph.
+
+![](redirect_demo.gif)
+*Redirect node in action — execution jumps to a named target node in the same graph*
+
+## Adding a Redirect Node
+
+To add a redirect node, place it in the graph like any other node and wire it from the previous node using a transition edge.
+
+The redirect node exposes a **Target Node** dropdown that lets you pick the destination node by title. Select the node you want execution to jump to when the redirect is reached.
+
+<div className="notes">
+
+> The dropdown requires you to hit **Save** once on the Combo Graph asset before it generates the list of available target nodes. Newly created redirect nodes will show an empty dropdown until the graph is saved.
+
+</div>
+
+## Editor Features
+
+### Double-Click Navigation
+
+Double-clicking a redirect node in the editor will navigate the viewport to its target node, making it easy to follow the flow of execution across the graph.
+
+### Message Log Integration
+
+If a redirect node cannot resolve its target at runtime, the error is logged to the Unreal message log, which you can activate from within the editor for quick debugging.
+
+## Runtime Behavior
+
+At runtime, the redirect node recursively resolves its target. If the resolved target is itself another redirect node, resolution continues until a non-redirect node is found.
+
+Redirect nodes are tracked for debug visualization alongside the currently active node, so you can see the full chain of execution in the debugger.

@@ -23,6 +23,7 @@
     "--- Graph ---",
     "graph/conduit",
     "graph/transition-behavior",
+    "graph/redirect",
     "--- Guides ---",
     "topics/charge-attacks",
     "guides/ai",
