@@ -89,8 +89,170 @@ Select the attribute to compare, the operator, and the threshold value. The cond
 ## Extensibility
 
 The condition system is built on `FInstancedStruct` polymorphism, meaning new condition types can be added without modifying core edge logic.
-If you need custom evaluation rules beyond gameplay tags and attribute comparisons, you can author your own condition type by implementing 
+If you need custom evaluation rules beyond gameplay tags and attribute comparisons, you can author your own condition type by implementing
 the abstract `FComboGraphEdgeCondition` base class.
+
+No explicit registration is needed. The editor automatically discovers all subclasses through the `BaseStruct` meta property on the
+`Conditions` array in `UComboGraphEdge`, so new types will appear in the dropdown after a rebuild.
+
+### Creating a Custom Condition
+
+**1. Create your struct header** — define a `USTRUCT` inheriting from `FComboGraphEdgeCondition`, add `DisplayName` and `Category` meta,
+declare your configurable properties, and override `Evaluate`.
+
+**2. Implement `Evaluate`** — access the owner ASC via `InOwningTask.AbilitySystemComponent`, run your check, and return `true` to allow
+the transition or `false` to block it.
+
+Below are three practical examples.
+
+### Example: Cooldown Active
+
+Prevents transition if a specific cooldown tag is currently active on the owner ASC.
+
+**MyEdgeConditionCooldown.h**
+```cpp
+#pragma once
+
+#include "Conditions/ComboGraphEdgeCondition.h"
+#include "GameplayTagContainer.h"
+#include "MyEdgeConditionCooldown.generated.h"
+
+USTRUCT(DisplayName = "Cooldown Active", Meta = (Category = "ComboGraph"))
+struct FComboGraphEdgeConditionCooldown : public FComboGraphEdgeCondition
+{
+    GENERATED_BODY()
+
+    virtual bool Evaluate(const UComboGraphAbilityTask_StartGraph& InOwningTask, const UComboGraphEdge* InEdge) const override;
+
+    UPROPERTY(EditAnywhere, Category = "Parameters")
+    FGameplayTag CooldownTag;
+};
+```
+
+**MyEdgeConditionCooldown.cpp**
+```cpp
+#include "MyEdgeConditionCooldown.h"
+#include "Abilities/Tasks/ComboGraphAbilityTask_StartGraph.h"
+#include "AbilitySystemComponent.h"
+
+bool FComboGraphEdgeConditionCooldown::Evaluate(const UComboGraphAbilityTask_StartGraph& InOwningTask, const UComboGraphEdge* InEdge) const
+{
+    const TStrongObjectPtr<UAbilitySystemComponent> ASC = InOwningTask.AbilitySystemComponent.Pin();
+    if (!ASC.IsValid() || !IsValid(ASC.Get()))
+    {
+        return false;
+    }
+
+    return ASC->HasMatchingGameplayTag(CooldownTag);
+}
+```
+
+### Example: Ability Granted
+
+Prevents transition unless a specific Gameplay Ability is currently granted.
+
+**MyEdgeConditionAbilityGranted.h**
+```cpp
+#pragma once
+
+#include "Conditions/ComboGraphEdgeCondition.h"
+#include "MyEdgeConditionAbilityGranted.generated.h"
+
+class UGameplayAbility;
+
+USTRUCT(DisplayName = "Ability Granted", Meta = (Category = "ComboGraph"))
+struct FComboGraphEdgeConditionAbilityGranted : public FComboGraphEdgeCondition
+{
+    GENERATED_BODY()
+
+    virtual bool Evaluate(const UComboGraphAbilityTask_StartGraph& InOwningTask, const UComboGraphEdge* InEdge) const override;
+
+    UPROPERTY(EditAnywhere, Category = "Parameters")
+    TSubclassOf<UGameplayAbility> AbilityClass;
+};
+```
+
+**MyEdgeConditionAbilityGranted.cpp**
+```cpp
+#include "MyEdgeConditionAbilityGranted.h"
+
+#include "Abilities/Tasks/ComboGraphAbilityTask_StartGraph.h"
+#include "Abilities/GameplayAbility.h"
+#include "AbilitySystemComponent.h"
+
+bool FComboGraphEdgeConditionAbilityGranted::Evaluate(const UComboGraphAbilityTask_StartGraph& InOwningTask, const UComboGraphEdge* InEdge) const
+{
+    const TStrongObjectPtr<UAbilitySystemComponent> ASC = InOwningTask.AbilitySystemComponent.Pin();
+    if (!ASC.IsValid() || !IsValid(ASC.Get()))
+    {
+        return false;
+    }
+
+    if (!AbilityClass.IsValid())
+    {
+        return false;
+    }
+
+    FGameplayAbilitySpec* Spec = ASC->FindAbilitySpecFromClass(AbilityClass);
+    if (!Spec)
+    
+        return false;
+    }
+
+    return Spec->IsActive();
+}
+```
+
+### Example: Distance to Target
+
+Prevents transition if the avatar is too far from a designated target actor.
+
+**MyEdgeConditionDistanceToTarget.h**
+```cpp
+#pragma once
+
+#include "Conditions/ComboGraphEdgeCondition.h"
+#include "MyEdgeConditionDistanceToTarget.generated.h"
+
+class AActor;
+
+USTRUCT(DisplayName = "Distance to Target", Meta = (Category = "ComboGraph"))
+struct FComboGraphEdgeConditionDistanceToTarget : public FComboGraphEdgeCondition
+{
+    GENERATED_BODY()
+
+    virtual bool Evaluate(const UComboGraphAbilityTask_StartGraph& InOwningTask, const UComboGraphEdge* InEdge) const override;
+
+    UPROPERTY(EditAnywhere, Category = "Parameters")
+    TObjectPtr<AActor> TargetActor;
+
+    UPROPERTY(EditAnywhere, Category = "Parameters", Meta = (ClampMin = "0"))
+    float MaxDistanceThreshold = 200.f;
+};
+```
+
+**MyEdgeConditionDistanceToTarget.cpp**
+```cpp
+#include "MyEdgeConditionDistanceToTarget.h"
+#include "Abilities/Tasks/ComboGraphAbilityTask_StartGraph.h"
+
+bool FComboGraphEdgeConditionDistanceToTarget::Evaluate(const UComboGraphAbilityTask_StartGraph& InOwningTask, const UComboGraphEdge* InEdge) const
+{
+    if (!TargetActor)
+    {
+        return false;
+    }
+
+    const AActor* Avatar = InOwningTask.GetAvatarActor();
+    if (!Avatar)
+    {
+        return false;
+    }
+
+    const float Distance = Avatar->GetDistanceTo(TargetActor);
+    return Distance <= MaxDistanceThreshold;
+}
+```
 
 ## Example: Movement Mode Branching
 
@@ -98,7 +260,6 @@ A common use case is branching combo behavior based on whether the character is 
 you can set up two edges from the same node:
 
 1. **Grounded path** — edge condition checks for `Movement.Walking` tag
-1. **Grounded path** - edge condition checks for `Movement.Walking` tag
 2. **Airborne path** — edge condition checks for `Movement.Airborne` tag
 
 Both edges share the same input action. When the input is received during the combo window, the graph evaluates which edge's conditions 
