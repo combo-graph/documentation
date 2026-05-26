@@ -25,6 +25,7 @@
     "graph/transition-behavior",
     "graph/redirect",
     "graph/loops-to-conduit",
+    "graph/edge-conditions",
     "--- Guides ---",
     "topics/charge-attacks",
     "guides/ai",

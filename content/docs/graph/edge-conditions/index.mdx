@@ -1,0 +1,108 @@
+---
+title: Edge Conditions
+description: Gate combo graph transitions with runtime-evaluable conditions based on gameplay state
+---
+
+## Introduction
+
+Edge conditions allow you to gate combo graph transitions on gameplay state, beyond just input matching. When an edge has conditions attached, the transition will only occur if all conditions evaluate to true at the moment the input is received.
+
+This enables context-sensitive branching within a single Combo Graph without needing separate graphs or animation nodes.
+
+Here is an example of a graph that branches based on the owner's movement mode:
+
+*Branching to different nodes depending on whether the owner actor is walking or in the air*
+
+<video controls>
+  <source src="/content/docs/graph/edge-conditions/demo.mp4" type="video/mp4" />
+</video>
+
+*Conditions evaluated at runtime, branching to the appropriate path based on current gameplay tags*
+
+## How Conditions Work
+
+Conditions are evaluated at transition time, integrated into both the initial start node lookup (`GetEdgeWithInput`) and runtime input handling (`OnEventInputReceived`).
+
+- **All conditions must pass** — multiple conditions on a single edge use strict AND logic
+- **Empty conditions = always pass** — an edge with no conditions behaves as before, transitioning on input alone
+- Conditions are evaluated against the owner actor's current state
+
+## Adding Conditions to an Edge
+
+Select an edge in the graph to view its properties in the details panel. You'll find a new `Conditions` array property:
+
+![](conditions_list.png)
+*Conditions array on edge properties*
+
+Click the `+` button to add a new condition. You'll be presented with the available condition types to choose from.
+
+![](graph_example.png)
+
+## Condition Types
+
+### Gameplay Tag Query
+
+This condition queries the owner actor's Ability System Component for gameplay tags. It supports standard tag query operators:
+
+![](gameplay_tag_query.png)
+*Configuring a Gameplay Tag Query condition*
+
+![](gameplay_tag_query_details.png)
+*Tag query property details with operator and tag selection*
+
+Select the tags to check and the matching operator. The condition passes if the owner ASC matches the query.
+
+<div className="notes">
+
+> This condition type is particularly useful for branching based on movement modes, combat states, or any tag-driven state 
+  you already use in your project.
+
+</div>
+
+### Attribute Comparison
+
+This condition compares a gameplay attribute value (on the owner's actor ASC) against a threshold using one of six comparison operators:
+
+![](attribute_comparison.png)
+*Configuring an Attribute Comparison condition*
+
+![](attribute_comparison_details.png)
+*Attribute comparison property details with attribute, operator, and threshold*
+
+| Operator | Description |
+| -------- | ----------- |
+| `>` | Attribute is greater than threshold |
+| `>=` | Attribute is greater than or equal to threshold |
+| `<` | Attribute is less than threshold |
+| `<=` | Attribute is less than or equal to threshold |
+| `==` | Attribute equals threshold |
+| `!=` | Attribute does not equal threshold |
+
+Select the attribute to compare, the operator, and the threshold value. The condition passes if the comparison is true.
+
+<div className="notes">
+
+> This is useful for gating transitions on stamina, health, ammo, or any other numeric gameplay attribute granted to your ASC.
+
+</div>
+
+## Extensibility
+
+The condition system is built on `FInstancedStruct` polymorphism, meaning new condition types can be added without modifying core edge logic.
+If you need custom evaluation rules beyond gameplay tags and attribute comparisons, you can author your own condition type by implementing 
+the abstract `FComboGraphEdgeCondition` base class.
+
+## Example: Movement Mode Branching
+
+A common use case is branching combo behavior based on whether the character is grounded or airborne. Using Gameplay Tag Query conditions, 
+you can set up two edges from the same node:
+
+1. **Grounded path** — edge condition checks for `Movement.Walking` tag
+1. **Grounded path** - edge condition checks for `Movement.Walking` tag
+2. **Airborne path** — edge condition checks for `Movement.Airborne` tag
+
+Both edges share the same input action. When the input is received during the combo window, the graph evaluates which edge's conditions 
+are satisfied and transitions accordingly.
+
+This is the pattern demonstrated in the video above — a single graph handles both grounded and aerial combos, with the correct path 
+selected at runtime based on the character's current movement mode tags from CMC.
