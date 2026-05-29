@@ -1,0 +1,43 @@
+---
+title: "What's Coming in Combograph 1.7.0"
+description: "A preview of the major features landing in the upcoming 1.7.0 release."
+date: "2026-05-29"
+author: "Mickael Daniel"
+---
+
+## Combograph 1.7.0 — A Major Update
+
+The upcoming 1.7.0 release brings a set of powerful new features that expand what you can express in your combo graphs. From dynamic branching to reusable logic, here's what's on the way.
+
+### Loops to Conduit
+
+A new `bLoopsToConduit` property on nodes allows them to transition back to the Conduit node's outgoing edges. This means you can re-select input-driven branches from anywhere in the graph — mid-combo — without drawing manual connections.
+
+Enable the toggle on any node and it will automatically listen for the Conduit's outgoing edges, giving you clean, input-responsive branching without extra wiring.
+
+### Redirect Node
+
+A brand new **Redirect** node type lets execution jump to another named node within the same graph. This is ideal for:
+
+- **Loops** — Return to a previous node without re-drawing edges
+- **Branching** — Route to different sections based on runtime logic
+- **Deduplication** — Share common logic across multiple paths without repeating nodes
+
+The editor provides a dropdown to pick the target node by title, and double-clicking a Redirect node navigates to its target in the graph.
+
+### Edge Conditions
+
+Transitions can now be gated by runtime gameplay state — not just input matching. Edge conditions use `FInstancedStruct` polymorphism, meaning new condition types can be added without modifying core edge logic.
+
+Two condition types ship with 1.7.0:
+
+- **Gameplay Tags Query** — Check whether the owning ASC has (or doesn't have) specific gameplay tags. Useful for branching based on movement mode, stance, or any state tracked via tags.
+- **Attribute Comparison** — Compare a numeric attribute against a threshold using six operators (`>`, `>=`, `<`, `<=`, `==`, `!=`). Ideal for health checks, cooldown gates, or resource thresholds.
+
+All conditions on an edge must pass (AND logic) for the transition to occur. An empty condition list means the edge always passes, preserving existing behavior.
+
+### Getting Started
+
+These features will be available with the 1.7.0 release. Check out our [installation guide](/docs/installation) and [quick start tutorial](/docs/usage/quick-start) to get up and running.
+
+Stay tuned for the release!
